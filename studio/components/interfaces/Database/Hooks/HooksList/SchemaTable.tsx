@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 
 import Table from 'components/to-be-cleaned/Table'
 import HookList from './HookList'
+import { useTranslation } from 'react-i18next'
 
 interface SchemaTableProps {
   schema: string
@@ -17,6 +18,7 @@ const SchemaTable = ({
   editHook = noop,
   deleteHook = noop,
 }: SchemaTableProps) => {
+  const { t } = useTranslation()
   return (
     <div key={schema} className="">
       <div className="sticky top-0 backdrop-blur backdrop-filter">
@@ -30,16 +32,16 @@ const SchemaTable = ({
         head={
           <>
             <Table.th key="name" className="w-[20%]">
-              <p className="translate-x-[36px]">Name</p>
+              <p className="translate-x-[36px]">{t('Name')}</p>
             </Table.th>
             <Table.th key="table" className="w-[15%] hidden lg:table-cell">
-              Table
+              {t('Table')}
             </Table.th>
             <Table.th key="events" className="w-[24%] hidden xl:table-cell">
-              Events
+              {t('Events')}
             </Table.th>
             <Table.th key="webhook" className="hidden xl:table-cell">
-              Webhook
+              {t('Webhook')}
             </Table.th>
             <Table.th key="buttons" className="w-[5%]"></Table.th>
           </>

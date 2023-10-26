@@ -259,5 +259,11 @@
   "table": "表",
   "Update": "更新",
   "Truncate": "截断表",
-  "Schema": "模式"
+  "Schema": "模式",
+  "Database Webhooks": "数据库 Webhooks",
+  "Send real-time data from your database to another system whenever a table event occurs": "每当发生表事件时，将实时数据从数据库发送到另一个系统",
+  "Search for a webhook": "搜索一个 webhook",
+  "Create a new hook": "创建一个新钩子",
+  "You need additional permissions to create webhooks": "您需要额外的权限才能创建钩子",
+  "Webhook": "钩子"
 }

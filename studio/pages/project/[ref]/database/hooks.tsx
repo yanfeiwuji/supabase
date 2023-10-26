@@ -16,8 +16,10 @@ import { useSchemasQuery } from 'data/database/schemas-query'
 import { useCheckPermissions, useStore } from 'hooks'
 import { NextPageWithLayout } from 'types'
 import { IconLoader } from 'ui'
+import { useTranslation } from 'react-i18next'
 
 const HooksPage: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const { project } = useProjectContext()
   const { meta, ui } = useStore()
 
