@@ -8,6 +8,7 @@ import { DropdownControl } from 'components/grid/components/common'
 import { formatSortURLParams } from 'components/grid/SupabaseGrid.utils'
 import { Sort, SupaTable } from 'components/grid/types'
 import SortRow from './SortRow'
+import { useTranslation } from 'react-i18next'
 
 export interface SortPopoverProps {
   table: SupaTable
@@ -16,10 +17,9 @@ export interface SortPopoverProps {
 }
 
 const SortPopover = ({ table, sorts, setParams }: SortPopoverProps) => {
-  const btnText =
-    (sorts || []).length > 0
-      ? `Sorted by ${sorts.length} rule${sorts.length > 1 ? 's' : ''}`
-      : 'Sort'
+  const { t } = useTranslation()
+  //? `Sorted by ${sorts.length} rule${sorts.length > 1 ? 's' : ''}`
+  const btnText = (sorts || []).length > 0 ? t('Sorted by', { len: sorts.length }) : t('Sort')
 
   return (
     <Popover
@@ -48,6 +48,7 @@ export default SortPopover
 export interface SortOverlayProps extends SortPopoverProps {}
 
 const SortOverlay = ({ table, sorts: sortsFromUrl, setParams }: SortOverlayProps) => {
+  const { t } = useTranslation()
   const initialSorts = useMemo(
     () => formatSortURLParams((sortsFromUrl as string[]) ?? []),
     [sortsFromUrl]
@@ -120,8 +121,10 @@ const SortOverlay = ({ table, sorts: sortsFromUrl, setParams }: SortOverlayProps
       ))}
       {sorts.length === 0 && (
         <div className="space-y-1 px-3">
-          <h5 className="text-sm text-foreground-light">No sorts applied to this view</h5>
-          <p className="text-xs text-foreground-lighter">Add a column below to sort the view</p>
+          <h5 className="text-sm text-foreground-light">{t('No sorts applied to this view')}</h5>
+          <p className="text-xs text-foreground-lighter">
+            {t('Add a column below to sort the view')}
+          </p>
         </div>
       )}
 
@@ -140,14 +143,17 @@ const SortOverlay = ({ table, sorts: sortsFromUrl, setParams }: SortOverlayProps
               iconRight={<IconChevronDown />}
               className="sb-grid-dropdown__item-trigger"
             >
-              <span>{`Pick ${sorts.length > 1 ? 'another' : 'a'} column to sort by`}</span>
+              <span>
+                {/* {`Pick ${sorts.length > 1 ? 'another' : 'a'} column to sort by`} */}
+                {t('Pick a column to sort by')}
+              </span>
             </Button>
           </DropdownControl>
         ) : (
-          <p className="text-sm text-foreground-light">All columns have been added</p>
+          <p className="text-sm text-foreground-light">{t('All columns have been added')}</p>
         )}
         <Button disabled={isEqual(sorts, initialSorts)} type="default" onClick={onApplySort}>
-          Apply sorting
+          {t('Apply sorting')}
         </Button>
       </div>
     </div>

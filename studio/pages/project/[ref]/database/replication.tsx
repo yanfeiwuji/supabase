@@ -8,12 +8,14 @@ import { DatabaseLayout } from 'components/layouts'
 import { PublicationsList, PublicationsTables } from 'components/interfaces/Database'
 import NoPermission from 'components/ui/NoPermission'
 import { ScaffoldContainer, ScaffoldSection } from 'components/layouts/Scaffold'
+import { useTranslation } from 'react-i18next'
 
 // [Joshen] Technically, best that we have these as separate URLs
 // makes it easier to manage state, but foresee that this page might
 // be consolidated somewhere else eventually for better UX
 
 const DatabaseReplication: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const { meta } = useStore()
   const publications = meta.publications.list()
 
@@ -34,7 +36,7 @@ const DatabaseReplication: NextPageWithLayout = () => {
       <ScaffoldSection>
         <div className="col-span-12">
           <div className="mb-4">
-            <h3 className="mb-1 text-xl text-foreground">Database Replications</h3>
+            <h3 className="mb-1 text-xl text-foreground">{t('Database Replications')}</h3>
           </div>
           {selectedPublicationId === undefined ? (
             <PublicationsList onSelectPublication={setSelectedPublicationId} />

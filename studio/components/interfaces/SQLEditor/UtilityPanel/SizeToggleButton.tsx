@@ -1,4 +1,5 @@
 import * as Tooltip from '@radix-ui/react-tooltip'
+import { useTranslation } from 'react-i18next'
 import { useSqlEditorStateSnapshot } from 'state/sql-editor'
 import { Button, IconMaximize2, IconMinimize2 } from 'ui'
 
@@ -7,6 +8,7 @@ export interface SizeToggleButton {
 }
 
 const SizeToggleButton = ({ id }: SizeToggleButton) => {
+  const { t } = useTranslation()
   const snap = useSqlEditorStateSnapshot()
   const snippet = snap.snippets[id]
   const isUtilityPanelCollapsed = (snippet?.splitSizes?.[1] ?? 0) === 0
@@ -58,7 +60,7 @@ const SizeToggleButton = ({ id }: SizeToggleButton) => {
               'border border-scale-200',
             ].join(' ')}
           >
-            <span className="text-xs text-foreground">Collapse results</span>
+            <span className="text-xs text-foreground">{t('Collapse results')}</span>
           </div>
         </Tooltip.Content>
       </Tooltip.Portal>

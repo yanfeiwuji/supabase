@@ -9,12 +9,14 @@ import Table from 'components/to-be-cleaned/Table'
 import InformationBox from 'components/ui/InformationBox'
 import NoSearchResults from 'components/ui/NoSearchResults'
 import { useCheckPermissions, useStore } from 'hooks'
+import { useTranslation } from 'react-i18next'
 
 interface PublicationsListProps {
   onSelectPublication: (id: number) => void
 }
 
 const PublicationsList = ({ onSelectPublication = noop }: PublicationsListProps) => {
+  const { t } = useTranslation()
   const { ui, meta } = useStore()
   const [filterString, setFilterString] = useState<string>('')
 
@@ -37,7 +39,7 @@ const PublicationsList = ({ onSelectPublication = noop }: PublicationsListProps)
   const toggleListenEvent = async (publication: any, event: any, currentStatus: any) => {
     const startStop = currentStatus ? 'stop' : 'start'
     confirmAlert({
-      title: 'Confirm',
+      title: t('Confirm'),
       message: `Are you sure you want to ${startStop} sending ${event} events for ${publication.name}?`,
       onAsyncConfirm: async () => {
         try {
@@ -68,7 +70,7 @@ const PublicationsList = ({ onSelectPublication = noop }: PublicationsListProps)
             <Input
               size="small"
               icon={<IconSearch size="tiny" />}
-              placeholder={'Filter'}
+              placeholder={t('Filter')}
               value={filterString}
               onChange={(e) => setFilterString(e.target.value)}
             />
@@ -89,16 +91,16 @@ const PublicationsList = ({ onSelectPublication = noop }: PublicationsListProps)
         <div className="overflow-hidden rounded">
           <Table
             head={[
-              <Table.th key="header.name">Name</Table.th>,
+              <Table.th key="header.name">{t('Name')}</Table.th>,
               <Table.th key="header.id" className="hidden lg:table-cell">
-                System ID
+                {t('System ID')}
               </Table.th>,
-              <Table.th key="header.insert">Insert</Table.th>,
-              <Table.th key="header.update">Update</Table.th>,
-              <Table.th key="header.delete">Delete</Table.th>,
-              <Table.th key="header.truncate">Truncate</Table.th>,
+              <Table.th key="header.insert">{t('Insert')}</Table.th>,
+              <Table.th key="header.update">{t('Update')}</Table.th>,
+              <Table.th key="header.delete">{t('Delete')}</Table.th>,
+              <Table.th key="header.truncate">{t('Truncate')}</Table.th>,
               <Table.th key="header.source" className="text-right">
-                Source
+                {t('Source')}
               </Table.th>,
             ]}
             body={publications.map((x: any, i: number) => (
@@ -127,9 +129,9 @@ const PublicationsList = ({ onSelectPublication = noop }: PublicationsListProps)
                       onClick={() => onSelectPublication(x.id)}
                     >
                       {x.tables == null
-                        ? 'All tables'
+                        ? t('All tables')
                         : `${x.tables.length} ${
-                            x.tables.length > 1 || x.tables.length == 0 ? 'tables' : 'table'
+                            x.tables.length > 1 || x.tables.length == 0 ? t('tables') : t('table')
                           }`}
                     </Button>
                   </div>

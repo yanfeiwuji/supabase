@@ -8,6 +8,7 @@ import Panel from 'components/ui/Panel'
 import { useOrganizationCreateMutation } from 'data/organizations/organization-create-mutation'
 import { useStore } from 'hooks'
 import { NextPageWithLayout } from 'types'
+import { useTranslation } from 'react-i18next'
 
 const ORG_KIND_TYPES = {
   PERSONAL: 'Personal',
@@ -32,6 +33,7 @@ const ORG_SIZE_DEFAULT = '1'
  * No org selected yet, create a new one
  */
 const Wizard: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const { ui } = useStore()
   const router = useRouter()
 
@@ -82,7 +84,7 @@ const Wizard: NextPageWithLayout = () => {
       hideHeaderStyling
       title={
         <div key="panel-title">
-          <h4>Create a new organization</h4>
+          <h4>{t('Create a new organization')}</h4>
         </div>
       }
       footer={
@@ -92,40 +94,40 @@ const Wizard: NextPageWithLayout = () => {
           </Button>
           <div className="flex items-center space-x-3">
             <p className="text-xs text-foreground-lighter">
-              You can rename your organization later
+              {t('You can rename your organization later')}
             </p>
             <Button onClick={onClickSubmit} loading={newOrgLoading} disabled={newOrgLoading}>
-              Create organization
+              {t('Create organization')}
             </Button>
           </div>
         </div>
       }
     >
       <Panel.Content className="pt-0">
-        <p className="text-sm">This is your organization within Supabase.</p>
+        <p className="text-sm">{t('This is your organization within Supabase.')}</p>
         <p className="text-sm text-foreground-light">
-          For example, you can use the name of your company or department.
+          {t('For example, you can use the name of your company or department.')}
         </p>
       </Panel.Content>
       <Panel.Content className="Form section-block--body has-inputs-centered">
         <Input
           autoFocus
-          label="Name"
+          label={t('Name')}
           type="text"
           layout="horizontal"
-          placeholder="Organization name"
-          descriptionText="What's the name of your company or team?"
+          placeholder={t('Organization name')}
+          descriptionText={t("What's the name of your company or team?")}
           value={orgName}
           onChange={onOrgNameChange}
         />
       </Panel.Content>
       <Panel.Content className="Form section-block--body has-inputs-centered">
         <Listbox
-          label="Type of organization"
+          label={t('Type of organization')}
           layout="horizontal"
           value={orgKind}
           onChange={onOrgKindChange}
-          descriptionText="What would best describe your organization?"
+          descriptionText={t('What would best describe your organization?')}
         >
           {Object.entries(ORG_KIND_TYPES).map(([k, v]) => {
             return (
@@ -139,11 +141,11 @@ const Wizard: NextPageWithLayout = () => {
       {orgKind == 'COMPANY' ? (
         <Panel.Content className="Form section-block--body has-inputs-centered">
           <Listbox
-            label="Company size"
+            label={t('Company size')}
             layout="horizontal"
             value={orgSize}
             onChange={onOrgSizeChange}
-            descriptionText="How many people are in your company?"
+            descriptionText={t('How many people are in your company?')}
           >
             {Object.entries(ORG_SIZE_TYPES).map(([k, v]) => {
               return (

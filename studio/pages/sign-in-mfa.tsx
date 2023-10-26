@@ -7,9 +7,11 @@ import { auth, buildPathWithParams, getAccessToken } from 'lib/gotrue'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import { NextPageWithLayout } from 'types'
 
 const SignInMfaPage: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const pushNext = usePushNext()
@@ -33,7 +35,9 @@ const SignInMfaPage: NextPageWithLayout = () => {
           if (error) {
             // if there was a problem signing in via the url, don't redirect
             toast.error(
-              `Failed to retrieve assurance level: ${error.message}. Please try signing in again`
+              `${t('Failed to retrieve assurance level')}: ${error.message}. ${t(
+                'Please try signing in again'
+              )}`
             )
             setLoading(false)
             return router.push('/sign-in')
@@ -70,8 +74,8 @@ const SignInMfaPage: NextPageWithLayout = () => {
 
   return (
     <SignInLayout
-      heading="Two-factor authentication"
-      subheading="Enter the authentication code from your two-factor authentication app"
+      heading={t('Two-factor authentication')}
+      subheading={t('Enter the authentication code from your two-factor authentication app')}
       logoLinkToMarketingSite={true}
     >
       <div className="flex flex-col gap-5">

@@ -32,6 +32,7 @@ import FilterDropdown from './filter'
 import RefreshButton from './RefreshButton'
 import RLSBannerWarning from './RLSBannerWarning'
 import SortPopover from './sort'
+import { useTranslation } from 'react-i18next'
 
 // [Joshen] CSV exports require this guard as a fail-safe if the table is
 // just too large for a browser to keep all the rows in memory before
@@ -107,6 +108,7 @@ const DefaultHeader = ({
   onAddRow,
   onImportData,
 }: DefaultHeaderProps) => {
+  const { t } = useTranslation()
   const canAddNew = onAddRow !== undefined || onAddColumn !== undefined
 
   // [Joshen] Using this logic to block both column and row creation/update/delete
@@ -131,7 +133,7 @@ const DefaultHeader = ({
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex">
                   <Button size="tiny" icon={<IconChevronDown size={14} strokeWidth={1.5} />}>
-                    Insert
+                    {t('Insert')}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent side="bottom" align="start">
@@ -154,9 +156,10 @@ const DefaultHeader = ({
                               />
                             </div>
                             <div>
-                              <p>Insert row</p>
+                              <p>{t('Insert row')}</p>
                               <p className="text-foreground-light">
-                                Insert a new row into {table.name}
+                                {t('Insert a new row into tableName', { tableName: table.name })}
+                                {/* Insert a new row into {table.name} */}
                               </p>
                             </div>
                           </DropdownMenuItem>,
@@ -180,9 +183,10 @@ const DefaultHeader = ({
                               />
                             </div>
                             <div>
-                              <p>Insert column</p>
+                              <p>{t('Insert column')}</p>
                               <p className="text-foreground-light">
-                                Insert a new column into {table.name}
+                                {/* Insert a new column into {table.name} */}
+                                {t('Insert a new column into tableName', { tableName: table.name })}
                               </p>
                             </div>
                           </DropdownMenuItem>,
@@ -207,8 +211,10 @@ const DefaultHeader = ({
                               />
                             </div>
                             <div>
-                              <p>Import data from CSV</p>
-                              <p className="text-foreground-light">Insert new rows from a CSV</p>
+                              <p>{t('Import data from CSV')}</p>
+                              <p className="text-foreground-light">
+                                {t('Insert new rows from a CSV')}
+                              </p>
                             </div>
                           </DropdownMenuItem>,
                         ]
@@ -230,6 +236,7 @@ type RowHeaderProps = {
   filters: Filter[]
 }
 const RowHeader = ({ table, sorts, filters }: RowHeaderProps) => {
+  const { t } = useTranslation()
   const { ui } = useStore()
   const state = useTrackedState()
   const dispatch = useDispatch()
@@ -406,14 +413,14 @@ const RowHeader = ({ table, sorts, filters }: RowHeaderProps) => {
         />
         <span className="text-xs text-foreground">
           {allRowsSelected
-            ? `${totalRows} rows selected`
+            ? `${totalRows} ${t('rows selected')}`
             : selectedRows.size > 1
-            ? `${selectedRows.size} rows selected`
-            : `${selectedRows.size} row selected`}
+            ? `${selectedRows.size} ${t('rows selected')}`
+            : `${selectedRows.size} ${t('row selected')}`}
         </span>
         {!allRowsSelected && totalRows > allRows.length && (
           <Button type="link" onClick={() => onSelectAllRows()}>
-            Select all {totalRows} rows
+            {t('Select all')} {totalRows} {t('rows')}
           </Button>
         )}
       </div>
@@ -427,7 +434,7 @@ const RowHeader = ({ table, sorts, filters }: RowHeaderProps) => {
           disabled={isExporting}
           onClick={onRowsExportCSV}
         >
-          Export to CSV
+          {t('Export to CSV')}
         </Button>
         {editable && (
           <Button
@@ -437,10 +444,10 @@ const RowHeader = ({ table, sorts, filters }: RowHeaderProps) => {
             onClick={onRowsDelete}
           >
             {allRowsSelected
-              ? `Delete ${totalRows} rows`
+              ? `${t('Delete')} ${totalRows} ${t('rows')}`
               : selectedRows.size > 1
-              ? `Delete ${selectedRows.size} rows`
-              : `Delete ${selectedRows.size} row`}
+              ? `${t('Delete')} ${selectedRows.size} ${t('rows')}`
+              : `${t('Delete')} ${selectedRows.size} ${t('row')}`}
           </Button>
         )}
       </div>

@@ -11,8 +11,10 @@ import NoSearchResults from 'components/ui/NoSearchResults'
 import { useCheckPermissions, useStore } from 'hooks'
 import ExtensionCard from './ExtensionCard'
 import { HIDDEN_EXTENSIONS } from './Extensions.constants'
+import { useTranslation } from 'react-i18next'
 
 const Extensions = () => {
+  const { t } = useTranslation()
   const { meta } = useStore()
   const { filter } = useParams()
   const [filterString, setFilterString] = useState<string>('')
@@ -61,7 +63,7 @@ const Extensions = () => {
             <Link passHref href="https://supabase.com/docs/guides/database/extensions">
               <Button asChild type="default" icon={<IconExternalLink />}>
                 <a target="_blank" rel="noreferrer">
-                  Documentation
+                  {t('Documentation')}
                 </a>
               </Button>
             </Link>
@@ -76,7 +78,7 @@ const Extensions = () => {
       <div className="my-8 w-full space-y-12">
         {enabledExtensions.length > 0 && (
           <div className="space-y-4">
-            <h4 className="text-lg">Enabled extensions</h4>
+            <h4 className="text-lg">{t('Enabled extensions')}</h4>
             <div className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
               {enabledExtensions.map((extension) => (
                 <ExtensionCard key={extension.name} extension={extension} />
@@ -87,7 +89,7 @@ const Extensions = () => {
 
         {disabledExtensions.length > 0 && (
           <div className="space-y-4">
-            <h4 className="text-lg">Available extensions</h4>
+            <h4 className="text-lg">{t('Available extensions')}</h4>
             <div className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
               {disabledExtensions.map((extension) => (
                 <ExtensionCard key={extension.name} extension={extension} />

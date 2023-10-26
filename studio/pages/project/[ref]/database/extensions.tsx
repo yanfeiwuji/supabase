@@ -7,8 +7,10 @@ import { ScaffoldContainer, ScaffoldSection } from 'components/layouts/Scaffold'
 import NoPermission from 'components/ui/NoPermission'
 import { useCheckPermissions } from 'hooks'
 import { NextPageWithLayout } from 'types'
+import { useTranslation } from 'react-i18next'
 
 const DatabaseExtensions: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const canReadExtensions = useCheckPermissions(
     PermissionAction.TENANT_SQL_ADMIN_READ,
     'extensions'
@@ -21,7 +23,7 @@ const DatabaseExtensions: NextPageWithLayout = () => {
     <ScaffoldContainer>
       <ScaffoldSection>
         <div className="col-span-12">
-          <h3 className="mb-4 text-xl text-foreground">Database Extensions</h3>
+          <h3 className="mb-4 text-xl text-foreground">{t('Database Extensions')}</h3>
           <Extensions />
         </div>
       </ScaffoldSection>

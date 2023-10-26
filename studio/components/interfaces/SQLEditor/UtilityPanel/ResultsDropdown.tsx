@@ -20,6 +20,7 @@ import {
 } from 'ui'
 // @ts-ignore
 import MarkdownTable from 'markdown-table'
+import { useTranslation } from 'react-i18next'
 
 export type ResultsDropdownProps = {
   id: string
@@ -27,6 +28,7 @@ export type ResultsDropdownProps = {
 }
 
 const ResultsDropdown = ({ id, isExecuting }: ResultsDropdownProps) => {
+  const { t } = useTranslation()
   const { project } = useProjectContext()
   const snap = useSqlEditorStateSnapshot()
   const telemetryProps = useTelemetryProps()
@@ -109,7 +111,7 @@ const ResultsDropdown = ({ id, isExecuting }: ResultsDropdownProps) => {
       <DropdownMenuTrigger>
         <Button asChild type="text" iconRight={<IconChevronDown />}>
           <span>
-            Results
+            {t('Results')}
             {!isExecuting &&
               result &&
               result.rows.length > 0 &&
@@ -128,11 +130,11 @@ const ResultsDropdown = ({ id, isExecuting }: ResultsDropdownProps) => {
         <>
           <DropdownMenuItem onClick={onDownloadCSV} className="space-x-2">
             <IconDownload size="tiny" />
-            <p>Download CSV</p>
+            <p>{t('Download CSV')}</p>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={onCopyAsMarkdown} className="space-x-2">
             <IconClipboard size="tiny" />
-            <p>Copy as markdown</p>
+            <p>{t('Copy as markdown')}</p>
           </DropdownMenuItem>
         </>
       </DropdownMenuContent>

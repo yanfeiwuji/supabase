@@ -14,8 +14,10 @@ import CreateRolePanel from './CreateRolePanel'
 import DeleteRoleModal from './DeleteRoleModal'
 import RoleRow from './RoleRow'
 import { SUPABASE_ROLES } from './Roles.constants'
+import { useTranslation } from 'react-i18next'
 
 const RolesList = ({}) => {
+  const { t } = useTranslation()
   const { meta } = useStore()
 
   const [maxConnectionLimit, setMaxConnectionLimit] = useState(0)
@@ -58,8 +60,10 @@ const RolesList = ({}) => {
       <div>
         <div className="flex items-center justify-between">
           <FormHeader
-            title="Database Roles"
-            description="Manage access control to your database through users, groups, and permissions"
+            title={t('Database Roles')}
+            description={t(
+              'Manage access control to your database through users, groups, and permissions'
+            )}
           />
         </div>
 
@@ -67,7 +71,7 @@ const RolesList = ({}) => {
           <div className="flex items-center space-x-4">
             <Input
               size="small"
-              placeholder="Search for a role"
+              placeholder={t('Search for a role')}
               icon={<IconSearch size="tiny" />}
               value={filterString}
               onChange={(event: any) => setFilterString(event.target.value)}
@@ -94,7 +98,7 @@ const RolesList = ({}) => {
                 ].join(' ')}
                 onClick={() => setFilterType('all')}
               >
-                All roles
+                {t('All roles')}
               </button>
               <div className="h-full w-[1px] border-r border-scale-700"></div>
               <button
@@ -106,7 +110,7 @@ const RolesList = ({}) => {
                 ].join(' ')}
                 onClick={() => setFilterType('active')}
               >
-                Active roles
+                {t('Active roles')}
               </button>
             </div>
           </div>
@@ -128,7 +132,7 @@ const RolesList = ({}) => {
                         : 'bg-green-800'
                     }
                     labelTop={`${totalActiveConnections}/${maxConnectionLimit}`}
-                    labelBottom="Active connections"
+                    labelBottom={t('Active connections')}
                   />
                 </div>
               </Tooltip.Trigger>
@@ -157,7 +161,7 @@ const RolesList = ({}) => {
                   icon={<IconPlus size="tiny" />}
                   onClick={() => setIsCreatingRole(true)}
                 >
-                  Add role
+                  {t('Add role')}
                 </Button>
               </Tooltip.Trigger>
               {!canUpdateRoles && (
@@ -169,7 +173,7 @@ const RolesList = ({}) => {
                       'border border-scale-200 text-xs',
                     ].join(' ')}
                   >
-                    You need additional permissions to add a new role
+                    {t('You need additional permissions to add a new role')}
                   </div>
                 </Tooltip.Content>
               )}
@@ -181,8 +185,8 @@ const RolesList = ({}) => {
           <div>
             {supabaseRoles.length > 0 && (
               <div className="bg-scale-100 dark:bg-scale-200 border border-scale-300 dark:border-scale-500 px-6 py-3 rounded-t flex items-center space-x-4">
-                <p className="text-sm text-foreground-light">Roles managed by Supabase</p>
-                <Badge color="green">Protected</Badge>
+                <p className="text-sm text-foreground-light">{t('Roles managed by Supabase')}</p>
+                <Badge color="green">{t('Protected')}</Badge>
               </div>
             )}
             {supabaseRoles.map((role: PostgresRole, i: number) => (
@@ -198,7 +202,7 @@ const RolesList = ({}) => {
           <div>
             {otherRoles.length > 0 && (
               <div className="bg-scale-100 dark:bg-scale-200 border border-scale-300 dark:border-scale-500 px-6 py-3 rounded-t">
-                <p className="text-sm text-foreground-light">Other database roles</p>
+                <p className="text-sm text-foreground-light">{t('Other database roles')}</p>
               </div>
             )}
             {otherRoles.map((role: PostgresRole, i: number) => (

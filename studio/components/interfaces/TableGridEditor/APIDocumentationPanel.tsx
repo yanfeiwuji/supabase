@@ -11,6 +11,7 @@ import { ResourceContent } from '../Docs'
 import GeneratingTypes from '../Docs/GeneratingTypes'
 import LangSelector from '../Docs/LangSelector'
 import ActionBar from './SidePanelEditor/ActionBar'
+import { useTranslation } from 'react-i18next'
 
 export interface APIDocumentationPanelProps {
   visible: boolean
@@ -18,6 +19,7 @@ export interface APIDocumentationPanelProps {
 }
 
 const APIDocumentationPanel = ({ visible, onClose }: APIDocumentationPanelProps) => {
+  const { t } = useTranslation()
   const { project } = useProjectContext()
   const { ref, page, id: _id } = useParams()
   const id = _id ? Number(_id) : undefined
@@ -134,7 +136,7 @@ const APIDocumentationPanel = ({ visible, onClose }: APIDocumentationPanelProps)
               </>
             ) : (
               <div className="p-6 mx-auto text-center sm:w-full md:w-3/4">
-                <h3 className="text-lg">Building docs ...</h3>
+                <h3 className="text-lg">{t('Building docs')} ...</h3>
               </div>
             )}
           </>

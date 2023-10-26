@@ -8,6 +8,7 @@ import { formatFilterURLParams } from 'components/grid/SupabaseGrid.utils'
 import { Filter, SupaTable } from 'components/grid/types'
 import { FilterOperatorOptions } from './Filter.constants'
 import FilterRow from './FilterRow'
+import { useTranslation } from 'react-i18next'
 
 export interface FilterPopoverProps {
   table: SupaTable
@@ -16,10 +17,10 @@ export interface FilterPopoverProps {
 }
 
 const FilterPopover = ({ table, filters, setParams }: FilterPopoverProps) => {
+  const { t } = useTranslation()
+  //? `Filtered by ${filters.length} rule${filters.length > 1 ? 's' : ''}`
   const btnText =
-    (filters || []).length > 0
-      ? `Filtered by ${filters.length} rule${filters.length > 1 ? 's' : ''}`
-      : 'Filter'
+    (filters || []).length > 0 ? t('Filtered by', { len: filters.length }) : t('Filter')
 
   return (
     <Popover
@@ -48,6 +49,7 @@ export default FilterPopover
 export interface FilterOverlayProps extends FilterPopoverProps {}
 
 const FilterOverlay = ({ table, filters: filtersFromUrl, setParams }: FilterOverlayProps) => {
+  const { t } = useTranslation()
   const initialFilters = useMemo(
     () => formatFilterURLParams((filtersFromUrl as string[]) ?? []),
     [filtersFromUrl]
@@ -124,18 +126,22 @@ const FilterOverlay = ({ table, filters: filtersFromUrl, setParams }: FilterOver
         ))}
         {filters.length == 0 && (
           <div className="space-y-1 px-3">
-            <h5 className="text-sm text-foreground-light">No filters applied to this view</h5>
-            <p className="text-xs text-foreground-lighter">Add a column below to filter the view</p>
+            <h5 className="text-sm text-foreground-light">
+              {t('No filters applied to this view')}
+            </h5>
+            <p className="text-xs text-foreground-lighter">
+              {t('Add a column below to filter the view')}
+            </p>
           </div>
         )}
       </div>
       <Popover.Separator />
       <div className="px-3 flex flex-row justify-between">
         <Button icon={<IconPlus />} type="text" onClick={onAddFilter}>
-          Add filter
+          {t('Add filter')}
         </Button>
         <Button disabled={isEqual(filters, initialFilters)} type="default" onClick={onApplyFilter}>
-          Apply filter
+          {t('Apply filter')}
         </Button>
       </div>
     </div>

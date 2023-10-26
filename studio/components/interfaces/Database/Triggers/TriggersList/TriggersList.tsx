@@ -17,6 +17,7 @@ import { useCheckPermissions, useStore } from 'hooks'
 import { EXCLUDED_SCHEMAS } from 'lib/constants/schemas'
 import TriggerList from './TriggerList'
 import ProtectedSchemaWarning from '../../ProtectedSchemaWarning'
+import { useTranslation } from 'react-i18next'
 
 interface TriggersListProps {
   createTrigger: () => void
@@ -29,6 +30,7 @@ const TriggersList = ({
   editTrigger = noop,
   deleteTrigger = noop,
 }: TriggersListProps) => {
+  const { t } = useTranslation()
   const { project } = useProjectContext()
   const { meta } = useStore()
   const [selectedSchema, setSelectedSchema] = useState<string>('public')
@@ -66,12 +68,14 @@ const TriggersList = ({
           >
             <AlphaPreview />
             <p className="text-sm text-foreground-light">
-              A PostgreSQL trigger is a function invoked automatically whenever an event associated
-              with a table occurs.
+              {t(
+                'A PostgreSQL trigger is a function invoked automatically whenever an event associated with a table occurs.'
+              )}
             </p>
             <p className="text-sm text-foreground-light">
-              An event could be any of the following: INSERT, UPDATE, DELETE. A trigger is a special
-              user-defined function associated with a table.
+              {t(
+                'An event could be any of the following: INSERT, UPDATE, DELETE. A trigger is a special user-defined function associated with a table.'
+              )}
             </p>
           </ProductEmptyState>
         </div>
@@ -87,7 +91,7 @@ const TriggersList = ({
                 onSelectSchema={setSelectedSchema}
               />
               <Input
-                placeholder="Search for a trigger"
+                placeholder={t('Search for a trigger')}
                 size="small"
                 icon={<IconSearch size="tiny" />}
                 value={filterString}
@@ -99,7 +103,7 @@ const TriggersList = ({
             <Tooltip.Root delayDuration={0}>
               <Tooltip.Trigger>
                 <Button disabled={!canCreateTriggers} onClick={() => createTrigger()}>
-                  Create a new trigger
+                  {t('Create a new trigger')}
                 </Button>
               </Tooltip.Trigger>
               {!canCreateTriggers && (
@@ -113,7 +117,7 @@ const TriggersList = ({
                       ].join(' ')}
                     >
                       <span className="text-xs text-foreground">
-                        You need additional permissions to create triggers
+                        {t('You need additional permissions to create triggers')}
                       </span>
                     </div>
                   </Tooltip.Content>
@@ -129,19 +133,19 @@ const TriggersList = ({
             head={
               <>
                 <Table.th key="name" className="space-x-4">
-                  Name
+                  {t('Name')}
                 </Table.th>
                 <Table.th key="table" className="hidden lg:table-cell">
-                  Table
+                  {t('Table')}
                 </Table.th>
                 <Table.th key="function" className="hidden xl:table-cell">
-                  Function
+                  {t('Function')}
                 </Table.th>
                 <Table.th key="events" className="hidden xl:table-cell">
-                  Events
+                  {t('Events')}
                 </Table.th>
                 <Table.th key="enabled" className="hidden w-20 xl:table-cell">
-                  Enabled
+                  {t('Enabled')}
                 </Table.th>
                 <Table.th key="buttons" className="w-1/12"></Table.th>
               </>

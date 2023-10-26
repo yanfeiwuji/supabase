@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PropsWithChildren } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type ForgotPasswordLayoutProps = {
   heading: string
@@ -20,6 +21,7 @@ const ForgotPasswordLayout = ({
   children,
 }: PropsWithChildren<ForgotPasswordLayoutProps>) => {
   const { resolvedTheme } = useTheme()
+  const { t } = useTranslation()
 
   return (
     <div className="flex-1 bg-scale-200 flex flex-col gap-8 lg:gap-16 xl:gap-32">
@@ -50,8 +52,8 @@ const ForgotPasswordLayout = ({
         <main className="max-w-[448px] w-full flex flex-col px-5">
           {showHeadings && (
             <div className="mb-6">
-              <h1 className="text-2xl lg:text-3xl mt-8 mb-2">{heading}</h1>
-              <h2 className="text-foreground-light text-sm">{subheading}</h2>
+              <h1 className="text-2xl lg:text-3xl mt-8 mb-2">{t(heading)}</h1>
+              <h2 className="text-foreground-light text-sm">{t(subheading)}</h2>
             </div>
           )}
 

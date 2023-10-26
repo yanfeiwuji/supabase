@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { Button, IconArrowLeft, IconArrowRight, IconLoader, InputNumber } from 'ui'
 import { useDispatch, useTrackedState } from '../../../store'
 import { DropdownControl } from '../../common'
+import { useTranslation } from 'react-i18next'
 
 const updatePage = (payload: number, dispatch: (value: unknown) => void) => {
   dispatch({
@@ -18,9 +19,13 @@ const updatePage = (payload: number, dispatch: (value: unknown) => void) => {
 const updatePageDebounced = AwesomeDebouncePromise(updatePage, 550)
 
 const rowsPerPageOptions = [
-  { value: 100, label: '100 rows' },
-  { value: 500, label: '500 rows' },
-  { value: 1000, label: '1000 rows' },
+  { value: 100, label: '100 行' },
+  { value: 500, label: '500 行' },
+  { value: 1000, label: '1000 行' },
+
+  // { value: 100, label: '100 rows' },
+  // { value: 500, label: '500 rows' },
+  // { value: 1000, label: '1000 rows' },
 ]
 
 export interface PaginationProps {
@@ -28,6 +33,7 @@ export interface PaginationProps {
 }
 
 const Pagination = ({ isLoading: isLoadingRows = false }: PaginationProps) => {
+  const { t } = useTranslation()
   const state = useTrackedState()
   const dispatch = useDispatch()
   const [page, setPage] = useState<number | null>(state.page)
@@ -154,7 +160,7 @@ const Pagination = ({ isLoading: isLoadingRows = false }: PaginationProps) => {
             onClick={onPreviousPage}
             style={{ padding: '3px 10px' }}
           />
-          <p className="text-sm text-foreground-light">Page</p>
+          <p className="text-sm text-foreground-light">{t('Page')}</p>
           <div className="sb-grid-pagination-input-container">
             <InputNumber
               // [Fran] we'll have to upgrade the UI component types to accept the null value when users delete the input content
@@ -169,7 +175,7 @@ const Pagination = ({ isLoading: isLoadingRows = false }: PaginationProps) => {
               min={1}
             />
           </div>
-          <p className="text-sm text-foreground-light">{`of ${totalPages}`}</p>
+          <p className="text-sm text-foreground-light">{t('of totalPages', { totalPages })}</p>
           <Button
             icon={<IconArrowRight />}
             type="outline"
@@ -185,11 +191,11 @@ const Pagination = ({ isLoading: isLoadingRows = false }: PaginationProps) => {
             align="start"
           >
             <Button asChild type="outline" style={{ padding: '3px 10px' }}>
-              <span>{`${state.rowsPerPage} rows`}</span>
+              <span>{`${state.rowsPerPage} ${t('rows')}`}</span>
             </Button>
           </DropdownControl>
           <p className="text-sm text-foreground-light">{`${data.count.toLocaleString()} ${
-            data.count === 0 || data.count > 1 ? `records` : 'record'
+            data.count === 0 || data.count > 1 ? t(`records`) : t('record')
           }`}</p>
           {isLoadingRows && <IconLoader size={14} className="animate-spin" />}
         </>
@@ -197,7 +203,7 @@ const Pagination = ({ isLoading: isLoadingRows = false }: PaginationProps) => {
 
       {isError && (
         <p className="text-sm text-foreground-light">
-          Error fetching records count. Please refresh the page.
+          {t('Error fetching records count. Please refresh the page.')}
         </p>
       )}
     </div>

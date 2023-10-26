@@ -19,6 +19,7 @@ import {
 import { useProjectContext } from 'components/layouts/ProjectLayout/ProjectContext'
 import Table from 'components/to-be-cleaned/Table'
 import { useCheckPermissions, useStore } from 'hooks'
+import { useTranslation } from 'react-i18next'
 
 interface FunctionListProps {
   schema: string
@@ -35,6 +36,7 @@ const FunctionList = ({
   editFunction = noop,
   deleteFunction = noop,
 }: FunctionListProps) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const { meta } = useStore()
   const { project: selectedProject } = useProjectContext()
@@ -55,9 +57,9 @@ const FunctionList = ({
     return (
       <Table.tr key={schema}>
         <Table.td colSpan={5}>
-          <p className="text-sm text-foreground">No functions created yet</p>
+          <p className="text-sm text-foreground">{t('No functions created yet')}</p>
           <p className="text-sm text-light">
-            There are no functions found in the schema "{schema}"
+            {t('There are no functions found in the schema {schema}', { schema })}
           </p>
         </Table.td>
       </Table.tr>

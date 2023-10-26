@@ -27,6 +27,7 @@ import { useStore } from 'hooks'
 import { BASE_PATH } from 'lib/constants'
 import { useTableEditorStateSnapshot } from 'state/table-editor'
 import { useProjectContext } from '../ProjectLayout/ProjectContext'
+import { useTranslation } from 'react-i18next'
 
 export interface EntityListItemProps {
   id: number
@@ -36,6 +37,7 @@ export interface EntityListItemProps {
 }
 
 const EntityListItem = ({ id, projectRef, item: entity, isLocked }: EntityListItemProps) => {
+  const { t } = useTranslation()
   const { ui } = useStore()
   const { project } = useProjectContext()
   const snap = useTableEditorStateSnapshot()
@@ -52,7 +54,7 @@ const EntityListItem = ({ id, projectRef, item: entity, isLocked }: EntityListIt
   const exportTableAsCSV = async () => {
     if (!project?.connectionString) return console.error('Connection string is required')
     const toastId = ui.setNotification({
-      category: 'loading',
+      category: t('loading'),
       message: `Exporting ${entity.name} as CSV...`,
     })
 
@@ -217,7 +219,7 @@ const EntityListItem = ({ id, projectRef, item: entity, isLocked }: EntityListIt
                 }}
               >
                 <IconEdit size="tiny" />
-                <p>Edit Table</p>
+                <p>{t('Edit Table')}</p>
               </DropdownMenuItem>
               <DropdownMenuItem
                 key="duplicate-table"
@@ -228,7 +230,7 @@ const EntityListItem = ({ id, projectRef, item: entity, isLocked }: EntityListIt
                 }}
               >
                 <IconCopy size="tiny" />
-                <p>Duplicate Table</p>
+                <p>{t('Duplicate Table')}</p>
               </DropdownMenuItem>
               <Link
                 key="view-policies"
@@ -237,7 +239,7 @@ const EntityListItem = ({ id, projectRef, item: entity, isLocked }: EntityListIt
                 <a>
                   <DropdownMenuItem key="delete-table" className="space-x-2">
                     <IconLock size="tiny" />
-                    <p>View Policies</p>
+                    <p>{t('View Policies')}</p>
                   </DropdownMenuItem>
                 </a>
               </Link>
@@ -250,7 +252,7 @@ const EntityListItem = ({ id, projectRef, item: entity, isLocked }: EntityListIt
                 }}
               >
                 <IconDownload size="tiny" />
-                <p>Export as CSV</p>
+                <p>{t('Export as CSV')}</p>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -262,7 +264,7 @@ const EntityListItem = ({ id, projectRef, item: entity, isLocked }: EntityListIt
                 }}
               >
                 <IconTrash size="tiny" />
-                <p>Delete Table</p>
+                <p>{t('Delete Table')}</p>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -14,12 +14,14 @@ import useEntityType from 'hooks/misc/useEntityType'
 import { timeout } from 'lib/helpers'
 import Link from 'next/link'
 import { Button } from 'ui'
+import { useTranslation } from 'react-i18next'
 
 export interface TableDefinitionProps {
   id?: number
 }
 
 const TableDefinition = ({ id }: TableDefinitionProps) => {
+  const { t } = useTranslation()
   const { ref } = useParams()
   const editorRef = useRef(null)
   const monacoRef = useRef(null)
@@ -108,7 +110,7 @@ const TableDefinition = ({ id }: TableDefinitionProps) => {
         href={`/project/${ref}/sql/new?content=${encodeURIComponent(formattedDefinition ?? '')}`}
       >
         <Button asChild type="default" className="absolute top-2 right-5 z-10">
-          <a>Open in SQL Editor</a>
+          <a>{t('Open in SQL Editor')}</a>
         </Button>
       </Link>
       <Editor

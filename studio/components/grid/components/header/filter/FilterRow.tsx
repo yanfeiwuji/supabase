@@ -4,6 +4,7 @@ import { Button, IconChevronDown, IconX, Input } from 'ui'
 import { DropdownControl } from 'components/grid/components/common'
 import { Filter, FilterOperator, SupaTable } from 'components/grid/types'
 import { FilterOperatorOptions } from './Filter.constants'
+import { useTranslation } from 'react-i18next'
 
 export interface FilterRowProps {
   table: SupaTable
@@ -15,6 +16,7 @@ export interface FilterRowProps {
 }
 
 const FilterRow = ({ table, filter, filterIdx, onChange, onDelete, onKeyDown }: FilterRowProps) => {
+  const { t } = useTranslation()
   const column = table.columns.find((x) => x.name === filter.column)
   const columnOptions =
     table.columns?.map((x) => {
@@ -26,7 +28,7 @@ const FilterRow = ({ table, filter, filterIdx, onChange, onDelete, onKeyDown }: 
       ? 'yyyy-mm-dd hh:mm:ss+zz'
       : column?.format === 'timestamp'
       ? 'yyyy-mm-dd hh:mm:ss'
-      : 'Enter a value'
+      : t('Enter a value')
 
   return (
     <div className="sb-grid-filter-row px-3">

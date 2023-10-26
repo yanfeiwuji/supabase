@@ -18,6 +18,7 @@ import {
 
 import { useStore } from 'hooks'
 import { ROLE_PERMISSIONS } from './Roles.constants'
+import { useTranslation } from 'react-i18next'
 
 interface RoleRowProps {
   role: PostgresRole
@@ -26,6 +27,7 @@ interface RoleRowProps {
 }
 
 const RoleRow = ({ role, disabled = false, onSelectDelete }: RoleRowProps) => {
+  const { t } = useTranslation()
   const { ui, meta } = useStore()
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -128,7 +130,7 @@ const RoleRow = ({ role, disabled = false, onSelectDelete }: RoleRowProps) => {
                       role.active_connections > 0 ? 'text-foreground' : 'text-foreground-light'
                     }`}
                   >
-                    {role.active_connections} connections
+                    {role.active_connections} {t('connections')}
                   </p>
                   {!disabled && (
                     <DropdownMenu>
@@ -146,7 +148,7 @@ const RoleRow = ({ role, disabled = false, onSelectDelete }: RoleRowProps) => {
                           }}
                         >
                           <IconTrash className="text-red-800" size="tiny" strokeWidth={2} />
-                          <p>Delete</p>
+                          <p>{t('Delete')}</p>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -163,7 +165,7 @@ const RoleRow = ({ role, disabled = false, onSelectDelete }: RoleRowProps) => {
                       key={permission}
                       id={permission}
                       name={permission}
-                      label={ROLE_PERMISSIONS[permission].description}
+                      label={t(ROLE_PERMISSIONS[permission].description)}
                       disabled={disabled || ROLE_PERMISSIONS[permission].disabled}
                       className={[
                         'roles-toggle',
@@ -190,7 +192,7 @@ const RoleRow = ({ role, disabled = false, onSelectDelete }: RoleRowProps) => {
                                   ].join(' ')}
                                 >
                                   <span className="text-xs">
-                                    This privilege cannot be updated via the dashboard
+                                    {t('This privilege cannot be updated via the dashboard')}
                                   </span>
                                 </div>
                               </Tooltip.Content>
@@ -208,7 +210,7 @@ const RoleRow = ({ role, disabled = false, onSelectDelete }: RoleRowProps) => {
                       disabled={!hasChanges || isSubmitting}
                       onClick={() => handleReset()}
                     >
-                      Cancel
+                      {t('Cancel')}
                     </Button>
                     <Button
                       type="primary"
@@ -216,7 +218,7 @@ const RoleRow = ({ role, disabled = false, onSelectDelete }: RoleRowProps) => {
                       disabled={!hasChanges || isSubmitting}
                       loading={isSubmitting}
                     >
-                      Save
+                      {t('Save')}
                     </Button>
                   </div>
                 )}

@@ -2,9 +2,11 @@ import SignInWithGitHub from 'components/interfaces/SignIn/SignInWithGitHub'
 import SignUpForm from 'components/interfaces/SignIn/SignUpForm'
 import { SignInLayout } from 'components/layouts'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 import { NextPageWithLayout } from 'types'
 
 const SignUpPage: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   return (
     <>
       <div className="flex flex-col gap-5">
@@ -23,10 +25,10 @@ const SignUpPage: NextPageWithLayout = () => {
       </div>
 
       <div className="my-8 self-center text-sm">
-        <span className="text-foreground-light">Have an account?</span>{' '}
+        <span className="text-foreground-light">{t('Have an account')}?</span>{' '}
         <Link href="/sign-in">
           <a className="underline text-foreground hover:text-foreground-light transition">
-            Sign In Now
+            {t('Sign In Now')}
           </a>
         </Link>
       </div>

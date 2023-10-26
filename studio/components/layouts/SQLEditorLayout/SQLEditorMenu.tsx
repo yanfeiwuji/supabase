@@ -15,8 +15,10 @@ import { uuidv4 } from 'lib/helpers'
 import { useProfile } from 'lib/profile'
 import { useSnippets, useSqlEditorStateSnapshot } from 'state/sql-editor'
 import QueryItem from './QueryItem'
+import { useTranslation } from 'react-i18next'
 
 const SideBarContent = observer(() => {
+  const { t } = useTranslation()
   const { ui } = useStore()
   const { ref } = useParams()
   const router = useRouter()
@@ -142,18 +144,18 @@ const SideBarContent = observer(() => {
                 }}
                 icon={<IconPlus size="tiny" />}
               >
-                New query
+                {t('New query')}
               </Button>
             </div>
             <div className="space-y-6 px-3">
               <div>
                 <ProductMenuItem
-                  name="Templates"
+                  name={t('Templates')}
                   isActive={router.asPath === `/project/${ref}/sql/templates`}
                   url={`/project/${ref}/sql/templates`}
                 />
                 <ProductMenuItem
-                  name="Quickstarts"
+                  name={t('Quickstarts')}
                   isActive={router.asPath === `/project/${ref}/sql/quickstarts`}
                   url={`/project/${ref}/sql/quickstarts`}
                 />
@@ -296,7 +298,7 @@ const SideBarContent = observer(() => {
 
               <div className="editor-product-menu">
                 <div className="flex flex-row justify-between">
-                  <Menu.Group title="Your queries" />
+                  <Menu.Group title={t('Your queries')} />
                   <button
                     className="flex items-center w-4 h-4 cursor-pointer mr-3"
                     onClick={() => {
@@ -355,10 +357,10 @@ const SideBarContent = observer(() => {
                 ) : (
                   <div className="text-foreground text-sm h-32 border border-dashed flex flex-col gap-3 items-center justify-center px-3 mx-3 rounded">
                     {filteredFavoriteSnippets.length === 0 && (
-                      <span className="text-lighter">No queries found</span>
+                      <span className="text-lighter">{t('No queries found')}</span>
                     )}
                     <Button type="default" onClick={() => handleNewQuery()}>
-                      New Query
+                      {t('New Query')}
                     </Button>
                   </div>
                 )}

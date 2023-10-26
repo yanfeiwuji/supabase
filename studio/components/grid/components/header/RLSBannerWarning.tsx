@@ -10,8 +10,10 @@ import { ENTITY_TYPE } from 'data/entity-types/entity-type-constants'
 import { useTableQuery } from 'data/tables/table-query'
 import useEntityType from 'hooks/misc/useEntityType'
 import { Button, IconAlertCircle, Modal } from 'ui'
+import { useTranslation } from 'react-i18next'
 
 export default function RLSBannerWarning() {
+  const { t } = useTranslation()
   const { project } = useProjectContext()
   const { ref: projectRef, id: _id } = useParams()
   const tableID = _id ? Number(_id) : undefined
@@ -48,11 +50,11 @@ export default function RLSBannerWarning() {
         <div>
           <div className="text-center bg-amber-500 text-amber-1100 dark:text-amber-900 text-xs py-2.5 flex items-center justify-center relative">
             <IconAlertCircle size={16} strokeWidth={2} />
-            <span className="uppercase font-bold ml-2">Warning</span>: You are allowing anonymous
-            access to your table.{' '}
+            <span className="uppercase font-bold ml-2">{t('Warning')}</span>:{' '}
+            {t('You are allowing anonymous access to your table.')}{' '}
             <Link href={`/project/${projectRef}/auth/policies?search=${tableID}`}>
               <a className="underline ml-2 opacity-80 hover:opacity-100 transition">
-                Enable Row Level Security
+                {t('Enable Row Level Security')}
               </a>
             </Link>
             <div className="ml-20 absolute right-2">
@@ -61,15 +63,15 @@ export default function RLSBannerWarning() {
                 className="hover:text-foreground text-amber-900 dark:text-amber-900 border border-amber-800"
                 onClick={() => setIsOpen(true)}
               >
-                Dismiss
+                {t('Dismiss')}
               </Button>
             </div>
           </div>
 
           <ConfirmationModal
             visible={isOpen}
-            header="Turn off Row Level Security"
-            buttonLabel="Confirm"
+            header={t('Turn off Row Level Security')}
+            buttonLabel={t('Confirm')}
             size="medium"
             onSelectCancel={() => setIsOpen(false)}
             onSelectConfirm={handleDismissWarning}

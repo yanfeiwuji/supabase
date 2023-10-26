@@ -6,6 +6,7 @@ import { Button, IconAlignLeft, IconCommand, IconCornerDownLeft } from 'ui'
 import FavoriteButton from './FavoriteButton'
 import SavingIndicator from './SavingIndicator'
 import SizeToggleButton from './SizeToggleButton'
+import { useTranslation } from 'react-i18next'
 
 export type UtilityActionsProps = {
   id: string
@@ -22,6 +23,7 @@ const UtilityActions = ({
   prettifyQuery,
   executeQuery,
 }: UtilityActionsProps) => {
+  const { t } = useTranslation()
   const os = detectOS()
 
   return (
@@ -46,7 +48,7 @@ const UtilityActions = ({
                 'border border-scale-200',
               ].join(' ')}
             >
-              <span className="text-xs text-foreground">Prettify SQL</span>
+              <span className="text-xs text-foreground">{t('Prettify SQL')}</span>
             </div>
           </Tooltip.Content>
         </Tooltip.Portal>
@@ -69,7 +71,7 @@ const UtilityActions = ({
           </div>
         }
       >
-        RUN
+        {t('RUN')}
       </Button>
     </>
   )

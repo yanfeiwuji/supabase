@@ -26,6 +26,7 @@ import {
   SidePanel,
 } from 'ui'
 import ChooseFunctionForm from './ChooseFunctionForm'
+import { useTranslation } from 'react-i18next'
 
 class CreateTriggerFormState {
   id: number | undefined
@@ -260,6 +261,7 @@ interface CreateTriggerProps {
 }
 
 const CreateTrigger = ({ trigger, visible, setVisible }: CreateTriggerProps) => {
+  const { t } = useTranslation()
   const { project } = useProjectContext()
   const { ui, meta } = useStore()
   const [isClosingPanel, setIsClosingPanel] = useState(false)

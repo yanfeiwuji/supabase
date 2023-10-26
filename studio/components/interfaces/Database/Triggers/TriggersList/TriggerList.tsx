@@ -18,6 +18,7 @@ import {
 
 import Table from 'components/to-be-cleaned/Table'
 import { useCheckPermissions, useStore } from 'hooks'
+import { useTranslation } from 'react-i18next'
 
 interface TriggerListProps {
   schema: string
@@ -34,6 +35,7 @@ const TriggerList = ({
   editTrigger,
   deleteTrigger,
 }: TriggerListProps) => {
+  const { t } = useTranslation()
   const { meta } = useStore()
   const triggers = meta.triggers.list()
   const filteredTriggers = triggers.filter((x: any) =>
@@ -47,8 +49,10 @@ const TriggerList = ({
     return (
       <Table.tr key={schema}>
         <Table.td colSpan={6}>
-          <p className="text-sm text-foreground">No triggers created yet</p>
-          <p className="text-sm text-light">There are no triggers found in the schema "{schema}"</p>
+          <p className="text-sm text-foreground">{t('No triggers created yet')}</p>
+          <p className="text-sm text-light">
+            {t('There are no triggers found in the schema')} "{schema}"
+          </p>
         </Table.td>
       </Table.tr>
     )
@@ -58,9 +62,9 @@ const TriggerList = ({
     return (
       <Table.tr key={schema}>
         <Table.td colSpan={5}>
-          <p className="text-sm text-foreground">No results found</p>
+          <p className="text-sm text-foreground">{t('No results found')}</p>
           <p className="text-sm text-light">
-            Your search for "{filterString}" did not return any results
+            {t('Your search for {filterString} did not return any results', { filterString })}
           </p>
         </Table.td>
       </Table.tr>
@@ -120,11 +124,11 @@ const TriggerList = ({
                     <DropdownMenuContent side="bottom" align="end" className="w-36">
                       <DropdownMenuItem className="space-x-2" onClick={() => editTrigger(x)}>
                         <IconEdit3 size="tiny" />
-                        <p>Edit trigger</p>
+                        <p>{t('Edit trigger')}</p>
                       </DropdownMenuItem>
                       <DropdownMenuItem className="space-x-2" onClick={() => deleteTrigger(x)}>
                         <IconTrash stroke="red" size="tiny" />
-                        <p>Delete trigger</p>
+                        <p>{t('Delete trigger')}</p>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -143,7 +147,7 @@ const TriggerList = ({
                           ].join(' ')}
                         >
                           <span className="text-xs text-foreground">
-                            You need additional permissions to update triggers
+                            {t('You need additional permissions to update triggers')}
                           </span>
                         </div>
                       </Tooltip.Content>

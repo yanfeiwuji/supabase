@@ -17,6 +17,7 @@ import { AiIconAnimation, Button } from 'ui'
 import { useSqlEditor } from '../SQLEditor'
 import { sqlAiDisclaimerComment } from '../SQLEditor.constants'
 import Results from './Results'
+import { useTranslation } from 'react-i18next'
 
 export type UtilityTabResultsProps = {
   id: string
@@ -24,6 +25,7 @@ export type UtilityTabResultsProps = {
 }
 
 const UtilityTabResults = ({ id, isExecuting }: UtilityTabResultsProps) => {
+  const { t } = useTranslation()
   const { ui } = useStore()
   const snap = useSqlEditorStateSnapshot()
   const { mutateAsync: debugSql, isLoading: isDebugSqlLoading } = useSqlDebugMutation()
@@ -149,7 +151,7 @@ const UtilityTabResults = ({ id, isExecuting }: UtilityTabResultsProps) => {
     return (
       <div className="bg-table-header-light dark:bg-table-header-dark">
         <p className="m-0 border-0 px-6 py-4 text-sm text-foreground-light">
-          Click <code>RUN</code> to execute your query.
+          {t('Click')} <code>{t('RUN')}</code> {t('to execute your query.')}
         </p>
       </div>
     )

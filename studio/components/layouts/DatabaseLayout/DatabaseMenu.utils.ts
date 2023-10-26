@@ -1,6 +1,7 @@
 import { Project } from 'types'
 import { ProductMenuGroup } from 'components/ui/ProductMenu/ProductMenu.types'
 import { IS_PLATFORM } from 'lib/constants'
+import { useTranslation } from 'react-i18next'
 
 export const generateDatabaseMenu = (
   project?: Project,

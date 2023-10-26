@@ -9,6 +9,7 @@ import {
 } from 'ui'
 
 import { EXCLUDED_SCHEMAS } from 'lib/constants/schemas'
+import { useTranslation } from 'react-i18next'
 
 export const ProtectedSchemaModal = ({
   visible,
@@ -57,20 +58,24 @@ export const ProtectedSchemaModal = ({
 }
 
 const ProtectedSchemaWarning = ({ schema, entity }: { schema: string; entity: string }) => {
+  const { t } = useTranslation()
   const [showModal, setShowModal] = useState(false)
 
   return (
     <>
       <Alert_Shadcn_>
         <IconAlertCircle strokeWidth={2} />
-        <AlertTitle_Shadcn_>Currently viewing {entity} from a protected schema</AlertTitle_Shadcn_>
+        <AlertTitle_Shadcn_>
+          {t('Currently viewing {entity} from a protected schema', { entity })}
+        </AlertTitle_Shadcn_>
         <AlertDescription_Shadcn_>
           <p className="mb-2">
-            The <code className="text-xs">{schema}</code> schema is managed by Supabase and is
-            read-only through the dashboard.
+            {t('The ')}
+            <code className="text-xs">{schema}</code>
+            {t(' schema is managed by Supabase and is read-only through the dashboard.')}
           </p>
           <Button type="default" size="tiny" onClick={() => setShowModal(true)}>
-            Learn more
+            {t('Learn more')}
           </Button>
         </AlertDescription_Shadcn_>
       </Alert_Shadcn_>

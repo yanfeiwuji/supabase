@@ -12,6 +12,7 @@ import { TableLike } from 'hooks/misc/useTable'
 import { noop } from 'lib/void'
 import { useTableEditorStateSnapshot } from 'state/table-editor'
 import { Alert, Button, Checkbox, IconExternalLink, Modal } from 'ui'
+import { useTranslation } from 'react-i18next'
 
 export type DeleteConfirmationDialogsProps = {
   projectRef?: string
@@ -24,6 +25,7 @@ const DeleteConfirmationDialogs = ({
   selectedTable,
   onAfterDeleteTable = noop,
 }: DeleteConfirmationDialogsProps) => {
+  const { t } = useTranslation()
   const { project } = useProjectContext()
   const snap = useTableEditorStateSnapshot()
 
@@ -73,7 +75,7 @@ const DeleteConfirmationDialogs = ({
 
       ui.setNotification({
         category: 'success',
-        message: `Successfully deleted column "${selectedColumnToDelete.name}"`,
+        message: `${t('Successfully deleted column')} "${selectedColumnToDelete.name}"`,
       })
 
       await Promise.all([
@@ -97,7 +99,7 @@ const DeleteConfirmationDialogs = ({
     } catch (error: any) {
       ui.setNotification({
         category: 'error',
-        message: `Failed to delete ${selectedColumnToDelete!.name}: ${error.message}`,
+        message: `${t('Failed to delete')} ${selectedColumnToDelete!.name}: ${error.message}`,
       })
     } finally {
       snap.closeConfirmationDialog()
@@ -122,14 +124,14 @@ const DeleteConfirmationDialogs = ({
 
       ui.setNotification({
         category: 'success',
-        message: `Successfully deleted table "${selectedTableToDelete.name}"`,
+        message: `${t('Successfully deleted table')} "${selectedTableToDelete.name}"`,
       })
       if (snap.selectedSchemaName) await meta.views.loadBySchema(snap.selectedSchemaName)
     } catch (error: any) {
       ui.setNotification({
         error,
         category: 'error',
-        message: `Failed to delete ${selectedTableToDelete?.name}: ${error.message}`,
+        message: `${t('Failed to delete')} ${selectedTableToDelete?.name}: ${error.message}`,
       })
     } finally {
       snap.closeConfirmationDialog()
@@ -142,11 +144,11 @@ const DeleteConfirmationDialogs = ({
         danger
         size="small"
         visible={snap.confirmationDialog?.type === 'column'}
-        header={`Confirm deletion of column "${
+        header={`${t('Confirm deletion of column ')}"${
           snap.confirmationDialog?.type === 'column' && snap.confirmationDialog.column.name
         }"`}
-        buttonLabel="Delete"
-        buttonLoadingLabel="Deleting"
+        buttonLabel={t('Delete')}
+        buttonLoadingLabel={t('Deleting')}
         onSelectCancel={() => {
           snap.closeConfirmationDialog()
         }}
@@ -155,11 +157,13 @@ const DeleteConfirmationDialogs = ({
         <Modal.Content>
           <div className="py-4 space-y-4">
             <p className="text-sm text-foreground-light">
-              Are you sure you want to delete the selected column? This action cannot be undone.
+              {t(
+                'Are you sure you want to delete the selected column? This action cannot be undone.'
+              )}
             </p>
             <Checkbox
-              label="Drop column with cascade?"
-              description="Deletes the column and its dependent objects"
+              label={t('Drop column with cascade?')}
+              description={t('Deletes the column and its dependent objects')}
               checked={isDeleteWithCascade}
               onChange={() => snap.toggleConfirmationIsWithCascade()}
             />
@@ -167,16 +171,17 @@ const DeleteConfirmationDialogs = ({
               <Alert
                 withIcon
                 variant="warning"
-                title="Warning: Dropping with cascade may result in unintended consequences"
+                title={t('Warning: Dropping with cascade may result in unintended consequences')}
               >
                 <p className="mb-4">
-                  All dependent objects will be removed, as will any objects that depend on them,
-                  recursively.
+                  {t(
+                    'All dependent objects will be removed, as will any objects that depend on them, recursively.'
+                  )}
                 </p>
                 <Link href="https://www.postgresql.org/docs/current/ddl-depend.html">
                   <a target="_blank" rel="noreferrer">
                     <Button size="tiny" type="default" icon={<IconExternalLink />}>
-                      About dependency tracking
+                      {t('About dependency tracking')}
                     </Button>
                   </a>
                 </Link>
@@ -190,10 +195,12 @@ const DeleteConfirmationDialogs = ({
         size="small"
         visible={snap.confirmationDialog?.type === 'table'}
         header={
-          <span className="break-words">{`Confirm deletion of table "${selectedTable?.name}"`}</span>
+          <span className="break-words">{`${'Confirm deletion of table'} "${
+            selectedTable?.name
+          }"`}</span>
         }
-        buttonLabel="Delete"
-        buttonLoadingLabel="Deleting"
+        buttonLabel={t('Delete')}
+        buttonLoadingLabel={t('Deleting')}
         onSelectCancel={() => {
           snap.closeConfirmationDialog()
         }}
@@ -202,11 +209,13 @@ const DeleteConfirmationDialogs = ({
         <Modal.Content>
           <div className="py-4 space-y-4">
             <p className="text-sm text-foreground-light">
-              Are you sure you want to delete the selected table? This action cannot be undone.
+              {t(
+                'Are you sure you want to delete the selected table? This action cannot be undone.'
+              )}
             </p>
             <Checkbox
-              label="Drop table with cascade?"
-              description="Deletes the table and its dependent objects"
+              label={t('Drop table with cascade?')}
+              description={t('Deletes the table and its dependent objects')}
               checked={isDeleteWithCascade}
               onChange={() => snap.toggleConfirmationIsWithCascade(!isDeleteWithCascade)}
             />
@@ -214,16 +223,17 @@ const DeleteConfirmationDialogs = ({
               <Alert
                 withIcon
                 variant="warning"
-                title="Warning: Dropping with cascade may result in unintended consequences"
+                title={t('Warning: Dropping with cascade may result in unintended consequences')}
               >
                 <p className="mb-4">
-                  All dependent objects will be removed, as will any objects that depend on them,
-                  recursively.
+                  {t(
+                    'All dependent objects will be removed, as will any objects that depend on them, recursively.'
+                  )}
                 </p>
                 <Link href="https://www.postgresql.org/docs/current/ddl-depend.html">
                   <a target="_blank" rel="noreferrer">
                     <Button size="tiny" type="default" icon={<IconExternalLink />}>
-                      About dependency tracking
+                      {t('About dependency tracking')}
                     </Button>
                   </a>
                 </Link>

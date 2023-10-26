@@ -9,8 +9,10 @@ import { ScaffoldContainer, ScaffoldSection } from 'components/layouts/Scaffold'
 import NoPermission from 'components/ui/NoPermission'
 import { useCheckPermissions, useStore } from 'hooks'
 import { NextPageWithLayout } from 'types'
+import { useTranslation } from 'react-i18next'
 
 const TriggersPage: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const { meta, ui } = useStore()
   const [selectedTrigger, setSelectedTrigger] = useState<any>()
   const [showCreateTriggerForm, setShowCreateTriggerForm] = useState<boolean>(false)
@@ -46,7 +48,7 @@ const TriggersPage: NextPageWithLayout = () => {
       <ScaffoldContainer>
         <ScaffoldSection>
           <div className="col-span-12">
-            <h3 className="mb-4 text-xl text-foreground">Database Triggers</h3>
+            <h3 className="mb-4 text-xl text-foreground">{t('Database Triggers')}</h3>
             <TriggersList
               createTrigger={createTrigger}
               editTrigger={editTrigger}

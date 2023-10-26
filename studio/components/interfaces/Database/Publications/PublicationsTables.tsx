@@ -13,6 +13,7 @@ import { useCheckPermissions } from 'hooks'
 import { EXCLUDED_SCHEMAS } from 'lib/constants/schemas'
 import { Button, IconAlertCircle, IconChevronLeft, IconSearch, Input } from 'ui'
 import PublicationsTableItem from './PublicationsTableItem'
+import { useTranslation } from 'react-i18next'
 
 interface PublicationsTablesProps {
   selectedPublication: PostgresPublication
@@ -20,6 +21,7 @@ interface PublicationsTablesProps {
 }
 
 const PublicationsTables = ({ selectedPublication, onSelectBack }: PublicationsTablesProps) => {
+  const { t } = useTranslation()
   const { project } = useProjectContext()
   const [filterString, setFilterString] = useState<string>('')
 
@@ -123,10 +125,10 @@ const PublicationsTables = ({ selectedPublication, onSelectBack }: PublicationsT
           <div>
             <Table
               head={[
-                <Table.th key="header-name">Name</Table.th>,
-                <Table.th key="header-schema">Schema</Table.th>,
+                <Table.th key="header-name">{t('Name')}</Table.th>,
+                <Table.th key="header-schema">{t('Schema')}</Table.th>,
                 <Table.th key="header-desc" className="hidden text-left lg:table-cell">
-                  Description
+                  {t('Description')}
                 </Table.th>,
                 <Table.th key="header-all">
                   {/* Temporarily disable All tables toggle for publications. See https://github.com/supabase/supabase/pull/7233.

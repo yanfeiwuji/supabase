@@ -7,10 +7,12 @@ import { observer } from 'mobx-react-lite'
 
 import { useSignOut } from 'lib/auth'
 import { useTheme } from 'next-themes'
+import { useTranslation } from 'react-i18next'
 
 const Error500: NextPage = () => {
   const router = useRouter()
   const { resolvedTheme } = useTheme()
+  const { t } = useTranslation()
 
   const signOut = useSignOut()
   const onClickLogout = async () => {
@@ -44,25 +46,26 @@ const Error500: NextPage = () => {
         </nav>
       </div>
       <div className="flex w-[320px] flex-col items-center justify-center space-y-3">
-        <h4 className="text-lg">Something went wrong 🤕</h4>
+        <h4 className="text-lg">{t('Something went wrong 🤕')}</h4>
         <p className="text-center">
-          Sorry about that, please try again later or feel free to reach out to us if the problem
-          persists.
+          {t(
+            'Sorry about that, please try again later or feel free to reach out to us if the problem persists.'
+          )}
         </p>
       </div>
       <div className="flex items-center space-x-4">
         {router.pathname !== '/projects' ? (
           <Link href="/projects">
             <a>
-              <Button>Head back</Button>
+              <Button>{t('Head back')}</Button>
             </a>
           </Link>
         ) : (
-          <Button onClick={onClickLogout}>Head back</Button>
+          <Button onClick={onClickLogout}>{t('Head back')}</Button>
         )}
         <Link href="/support/new">
           <a>
-            <Button type="secondary">Submit a support request</Button>
+            <Button type="secondary">{t('Submit a support request')}</Button>
           </a>
         </Link>
       </div>

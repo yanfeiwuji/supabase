@@ -12,8 +12,10 @@ import { useFlag, useIsFeatureEnabled } from 'hooks'
 import { IS_PLATFORM, LOCAL_STORAGE_KEYS } from 'lib/constants'
 import { useProfile } from 'lib/profile'
 import { NextPageWithLayout } from 'types'
+import { useTranslation } from 'react-i18next'
 
 const ProjectsPage: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const router = useRouter()
   const {
     data: organizations,
@@ -55,7 +57,7 @@ const ProjectsPage: NextPageWithLayout = () => {
         <div
           className={`py-4 px-5 ${navLayoutV2 ? 'h-full flex items-center justify-center' : ''}`}
         >
-          <AlertError subject="Failed to retrieve organizations" />
+          <AlertError subject={t('Failed to retrieve organizations')} />
         </div>
       )}
 

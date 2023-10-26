@@ -14,11 +14,13 @@ import { useOrganizationsQuery } from 'data/organizations/organizations-query'
 import { useStore, withAuth } from 'hooks'
 import { NextPageWithLayout } from 'types'
 import { Alert, Button, Listbox } from 'ui'
+import { useTranslation } from 'react-i18next'
 
 // Need to handle if no organizations in account
 // Need to handle if not logged in yet state
 
 const APIAuthorizationPage: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const { ui } = useStore()
   const router = useRouter()
   const { auth_id } = useParams()
@@ -92,7 +94,7 @@ const APIAuthorizationPage: NextPageWithLayout = () => {
       <FormPanel header={<p>Authorization for API access</p>}>
         <div className="w-[500px] px-8 py-6">
           <Alert withIcon variant="warning" title="Missing authorization ID">
-            Please provide a valid authorization ID in the URL
+            {t('Please provide a valid authorization ID in the URL')}
           </Alert>
         </div>
       </FormPanel>
@@ -108,7 +110,7 @@ const APIAuthorizationPage: NextPageWithLayout = () => {
             variant="warning"
             title="Failed to fetch details for API authorization request"
           >
-            <p>Please retry your authorization request from the requesting app</p>
+            <p>{t('Please retry your authorization request from the requesting app')}</p>
             {error !== undefined && <p className="mt-2">Error: {error?.message}</p>}
           </Alert>
         </div>
@@ -130,7 +132,7 @@ const APIAuthorizationPage: NextPageWithLayout = () => {
               {approvedOrganization?.name ?? 'Unknown'}" and all of its projects
             </p>
             <p className="mt-2">
-              Approved on: {dayjs(requester.approved_at).format('DD MMM YYYY HH:mm:ss (ZZ)')}
+              {t('Approved on')}: {dayjs(requester.approved_at).format('DD MMM YYYY HH:mm:ss (ZZ)')}
             </p>
           </Alert>
         </div>
@@ -140,19 +142,23 @@ const APIAuthorizationPage: NextPageWithLayout = () => {
 
   return (
     <FormPanel
-      header={<p>Authorize API access for {requester?.name}</p>}
+      header={
+        <p>
+          {t('Authorize API access for')} {requester?.name}
+        </p>
+      }
       footer={
         <div className="flex items-center justify-end py-4 px-8">
           <div className="flex items-center space-x-2">
             <Button type="default" disabled={isSubmitting || isExpired} onClick={onDeclineRequest}>
-              Decline
+              {t('Decline')}
             </Button>
             <Button
               loading={isSubmitting}
               disabled={isSubmitting || isExpired}
               onClick={onApproveRequest}
             >
-              Authorize {requester?.name}
+              {t('Authorize')} {requester?.name}
             </Button>
           </div>
         </div>
@@ -170,7 +176,7 @@ const APIAuthorizationPage: NextPageWithLayout = () => {
         {/* Expiry warning */}
         {isExpired && (
           <Alert withIcon variant="warning" title="This authorization request is expired">
-            Please retry your authorization request from the requesting app
+            {t('Please retry your authorization request from the requesting app')}
           </Alert>
         )}
 

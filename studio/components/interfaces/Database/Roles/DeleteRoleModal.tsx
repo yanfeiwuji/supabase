@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Modal } from 'ui'
 
 import { useStore } from 'hooks'
+import { useTranslation } from 'react-i18next'
 
 interface DeleteRoleModalProps {
   role: PostgresRole
@@ -11,6 +12,7 @@ interface DeleteRoleModalProps {
 }
 
 const DeleteRoleModal = ({ role, visible, onClose }: DeleteRoleModalProps) => {
+  const { t } = useTranslation()
   const { ui, meta } = useStore()
   const [isDeleting, setIsDeleting] = useState(false)
 
@@ -41,14 +43,15 @@ const DeleteRoleModal = ({ role, visible, onClose }: DeleteRoleModalProps) => {
       visible={visible}
       onCancel={onClose}
       onConfirm={deleteRole}
-      header={<h3>Confirm to delete role "{role?.name}"</h3>}
+      header={<h3>{t('Confirm to delete role {roleName}', { roleName: role?.name })}</h3>}
       loading={isDeleting}
     >
       <div className="py-4">
         <Modal.Content>
           <p className="text-sm">
-            This will automatically revoke any membership of this role in other roles, and this
-            action cannot be undone.
+            {t(
+              'This will automatically revoke any membership of this role in other roles, and this action cannot be undone.'
+            )}
           </p>
         </Modal.Content>
       </div>

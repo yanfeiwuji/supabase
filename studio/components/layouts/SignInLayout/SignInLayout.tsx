@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { PropsWithChildren, useEffect, useState } from 'react'
 import { tweets } from 'shared-data'
 import { Button, IconFileText } from 'ui'
+import { useTranslation } from 'react-i18next'
 
 type SignInLayoutProps = {
   heading: string
@@ -26,6 +27,7 @@ const SignInLayout = ({
   logoLinkToMarketingSite = false,
   children,
 }: PropsWithChildren<SignInLayoutProps>) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const pushNext = usePushNext()
   const queryClient = useQueryClient()
@@ -132,8 +134,8 @@ const SignInLayout = ({
           <main className="flex flex-col items-center flex-1 flex-shrink-0 px-5 pt-16 pb-8 border-r shadow-lg bg-scale-200 border-scale-500">
             <div className="flex-1 flex flex-col justify-center w-[330px] sm:w-[384px]">
               <div className="mb-10">
-                <h1 className="mt-8 mb-2 text-2xl lg:text-3xl">{heading}</h1>
-                <h2 className="text-sm text-foreground-light">{subheading}</h2>
+                <h1 className="mt-8 mb-2 text-2xl lg:text-3xl">{t(heading)}</h1>
+                <h2 className="text-sm text-foreground-light">{t(subheading)}</h2>
               </div>
 
               {children}

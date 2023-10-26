@@ -10,6 +10,7 @@ import { IS_PLATFORM } from 'lib/constants'
 import SettingsLayout from '../SettingsLayout/SettingsLayout'
 import { SidebarSection } from './AccountLayout.types'
 import WithSidebar from './WithSidebar'
+import { useTranslation } from 'react-i18next'
 
 export interface AccountLayoutProps {
   title: string
@@ -20,6 +21,7 @@ export interface AccountLayoutProps {
 }
 
 const AccountLayout = ({ children, title, breadcrumbs }: PropsWithChildren<AccountLayoutProps>) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const { data: organizations } = useOrganizationsQuery()
   const selectedOrganization = useSelectedOrganization()
@@ -162,7 +164,7 @@ const AccountLayout = ({ children, title, breadcrumbs }: PropsWithChildren<Accou
   return (
     <>
       <Head>
-        <title>{title ? `${title} | Supabase` : 'Supabase'}</title>
+        <title>{t(title) ? `${t(title)} | Supabase` : 'Supabase'}</title>
         <meta name="description" content="Supabase Studio" />
       </Head>
       <div className="flex h-full">
@@ -172,7 +174,7 @@ const AccountLayout = ({ children, title, breadcrumbs }: PropsWithChildren<Accou
         >
           <WithSidebar
             hideSidebar={navLayoutV2}
-            title={title}
+            title={t(title)}
             breadcrumbs={breadcrumbs}
             sections={sectionsWithHeaders}
           >

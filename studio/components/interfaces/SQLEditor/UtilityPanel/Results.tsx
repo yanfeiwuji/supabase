@@ -4,9 +4,11 @@ import { copyToClipboard } from 'lib/helpers'
 import { useState } from 'react'
 import { Item, Menu, useContextMenu } from 'react-contexify'
 import { createPortal } from 'react-dom'
+import { useTranslation } from 'react-i18next'
 import { IconClipboard } from 'ui'
 
 const Results = ({ id, rows }: { id: string; rows: readonly any[] }) => {
+  const { t } = useTranslation()
   const SQL_CONTEXT_EDITOR_ID = 'sql-context-menu-' + id
 
   const [cellPosition, setCellPosition] = useState<any>(undefined)
@@ -70,7 +72,7 @@ const Results = ({ id, rows }: { id: string; rows: readonly any[] }) => {
   if (rows.length <= 0) {
     return (
       <div className="bg-table-header-light dark:bg-table-header-dark">
-        <p className="m-0 border-0 px-6 py-4 font-mono text-sm">Success. No rows returned</p>
+        <p className="m-0 border-0 px-6 py-4 font-mono text-sm">{t('Success. No rows returned')}</p>
       </div>
     )
   }

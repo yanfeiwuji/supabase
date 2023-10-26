@@ -9,8 +9,10 @@ import { ScaffoldContainer, ScaffoldSection } from 'components/layouts/Scaffold'
 import NoPermission from 'components/ui/NoPermission'
 import { useCheckPermissions, useStore } from 'hooks'
 import { NextPageWithLayout } from 'types'
+import { useTranslation } from 'react-i18next'
 
 const FunctionsPage: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const { ui, meta } = useStore()
   const [selectedFunction, setSelectedFunction] = useState<any>()
   const [showCreateFunctionForm, setShowCreateFunctionForm] = useState<boolean>(false)
@@ -38,7 +40,7 @@ const FunctionsPage: NextPageWithLayout = () => {
   }
 
   if (!canReadFunctions) {
-    return <NoPermission isFullPage resourceText="view database functions" />
+    return <NoPermission isFullPage resourceText={t('view database functions')} />
   }
 
   return (
@@ -46,7 +48,7 @@ const FunctionsPage: NextPageWithLayout = () => {
       <ScaffoldContainer>
         <ScaffoldSection>
           <div className="col-span-12">
-            <h3 className=" mb-4 text-xl text-foreground">Database Functions</h3>
+            <h3 className=" mb-4 text-xl text-foreground">{t('Database Functions')}</h3>
             <FunctionsList
               createFunction={createFunction}
               editFunction={editFunction}

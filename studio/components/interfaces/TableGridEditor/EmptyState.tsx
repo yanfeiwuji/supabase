@@ -5,11 +5,13 @@ import ProductEmptyState from 'components/to-be-cleaned/ProductEmptyState'
 import { useEntityTypesQuery } from 'data/entity-types/entity-types-infinite-query'
 import { useCheckPermissions, useLocalStorage } from 'hooks'
 import { EXCLUDED_SCHEMAS } from 'lib/constants/schemas'
+import { useTranslation } from 'react-i18next'
 import { useTableEditorStateSnapshot } from 'state/table-editor'
 
 export interface EmptyStateProps {}
 
 const EmptyState = ({}: EmptyStateProps) => {
+  const { t } = useTranslation()
   const snap = useTableEditorStateSnapshot()
   const isProtectedSchema = EXCLUDED_SCHEMAS.includes(snap.selectedSchemaName)
   const canCreateTables =
@@ -39,24 +41,24 @@ const EmptyState = ({}: EmptyStateProps) => {
     <div className="w-full h-full flex items-center justify-center">
       {totalCount === 0 ? (
         <ProductEmptyState
-          title="Table Editor"
-          ctaButtonLabel={canCreateTables ? 'Create a new table' : undefined}
+          title={t('Table Editor')}
+          ctaButtonLabel={canCreateTables ? t('Create a new table') : undefined}
           onClickCta={canCreateTables ? snap.onAddTable : undefined}
         >
           <p className="text-sm text-foreground-light">
-            There are no tables available in this schema.
+            {t('There are no tables available in this schema')}.
           </p>
         </ProductEmptyState>
       ) : (
         <div className="flex flex-col items-center space-y-4">
           <ProductEmptyState
-            title="Table Editor"
-            ctaButtonLabel={canCreateTables ? 'Create a new table' : undefined}
+            title={t('Table Editor')}
+            ctaButtonLabel={canCreateTables ? t('Create a new table') : undefined}
             onClickCta={canCreateTables ? snap.onAddTable : undefined}
           >
             <p className="text-sm text-foreground-light">
-              Select a table from the navigation panel on the left to view its data
-              {canCreateTables && ', or create a new one.'}
+              {t('Select a table from the navigation panel on the left to view its data')}
+              {canCreateTables && `, ${t('or create a new one')}.`}
             </p>
           </ProductEmptyState>
         </div>

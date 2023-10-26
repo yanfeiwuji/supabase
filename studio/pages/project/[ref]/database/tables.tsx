@@ -11,8 +11,10 @@ import { Table } from 'data/tables/table-query'
 import { useStore } from 'hooks'
 import { useTableEditorStateSnapshot } from 'state/table-editor'
 import { NextPageWithLayout } from 'types'
+import { useTranslation } from 'react-i18next'
 
 const DatabaseTables: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const { ui, meta } = useStore()
   const { ref: projectRef } = useParams()
 

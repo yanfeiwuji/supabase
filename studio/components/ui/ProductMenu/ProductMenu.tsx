@@ -2,6 +2,7 @@ import { Badge, Menu } from 'ui'
 
 import { ProductMenuGroup, ProductMenuGroupItem } from './ProductMenu.types'
 import ProductMenuItem from './ProductMenuItem'
+import { useTranslation } from 'react-i18next'
 
 interface ProductMenuProps {
   page?: string
@@ -9,6 +10,7 @@ interface ProductMenuProps {
 }
 
 const ProductMenu = ({ page, menu }: ProductMenuProps) => {
+  const { t } = useTranslation()
   return (
     <div className="flex flex-col space-y-8 overflow-y-auto">
       <Menu type="pills">
@@ -21,7 +23,7 @@ const ProductMenu = ({ page, menu }: ProductMenuProps) => {
                   title={
                     group.title ? (
                       <div className="flex flex-col space-y-2">
-                        <span>{group.title}</span>
+                        <span>{t(group.title)}</span>
                         {group.isPreview && <Badge color="amber">Not production ready</Badge>}
                       </div>
                     ) : null
@@ -32,7 +34,7 @@ const ProductMenu = ({ page, menu }: ProductMenuProps) => {
                     <ProductMenuItem
                       key={item.key}
                       url={item.url}
-                      name={item.name}
+                      name={t(item.name)}
                       icon={item.icon}
                       isActive={page === item.key}
                       isExternal={item.isExternal}

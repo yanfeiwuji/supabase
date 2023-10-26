@@ -32,6 +32,7 @@ import {
   Input,
 } from 'ui'
 import ProtectedSchemaWarning from '../ProtectedSchemaWarning'
+import { useTranslation } from 'react-i18next'
 
 interface TableListProps {
   onAddTable: () => void
@@ -46,6 +47,7 @@ const TableList = ({
   onDeleteTable = noop,
   onOpenTable = noop,
 }: TableListProps) => {
+  const { t } = useTranslation()
   const { meta } = useStore()
   const { project } = useProjectContext()
   const snap = useTableEditorStateSnapshot()
@@ -75,6 +77,8 @@ const TableList = ({
     },
     {
       select(tables) {
+        //  const filterTablesBySchema = tables.filter((table) => table.schema === schema?.name)
+
         return filterString.length === 0
           ? tables
           : tables.filter((table) => table.name.includes(filterString))
@@ -92,7 +96,7 @@ const TableList = ({
 
   return (
     <div className="space-y-4">
-      <h3 className="mb-1 text-xl text-foreground">Database Tables</h3>
+      <h3 className="mb-1 text-xl text-foreground">{t('Database Tables')}</h3>
 
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
@@ -106,7 +110,7 @@ const TableList = ({
           <Input
             size="small"
             className="w-64"
-            placeholder="Search for a table"
+            placeholder={t('Search for a table')}
             value={filterString}
             onChange={(e: any) => setFilterString(e.target.value)}
             icon={<IconSearch size="tiny" />}
@@ -122,7 +126,7 @@ const TableList = ({
                   icon={<IconPlus />}
                   onClick={() => onAddTable()}
                 >
-                  New table
+                  {t('New table')}
                 </Button>
               </Tooltip.Trigger>
               {!canUpdateTables && (
@@ -160,18 +164,20 @@ const TableList = ({
           <div className="my-4 w-full">
             <Table
               head={[
-                <Table.th key="name">Name</Table.th>,
-                <Table.th key="description" className="hidden lg:table-cell">
-                  Description
+                <Table.th key="name" className="hidden xl:table-cell ">
+                  <p className="w-[160px]">{t('Name')}</p>
+                </Table.th>,
+                <Table.th key="description" className="hidden text-right xl:table-cell">
+                  <p className="w-[160px]">{t('Description')}</p>
                 </Table.th>,
                 <Table.th key="rows" className="hidden text-right xl:table-cell">
-                  Rows (Estimated)
+                  <p className="w-[60px]">{t('Rows (Estimated)')}</p>
                 </Table.th>,
                 <Table.th key="size" className="hidden text-right xl:table-cell">
-                  Size (Estimated)
+                  <p className="w-[80px]">{t('Size (Estimated)')}</p>
                 </Table.th>,
                 <Table.th key="realtime" className="hidden xl:table-cell text-center">
-                  Realtime Enabled
+                  {t('Realtime Enabled')}
                 </Table.th>,
                 <Table.th key="buttons"></Table.th>,
               ]}
@@ -198,126 +204,134 @@ const TableList = ({
                     </Table.tr>
                   )}
                   {tables.length > 0 &&
-                    tables.map((x: any, i: any) => (
-                      <Table.tr key={x.id}>
-                        <Table.td>
-                          <p title={x.name}>{x.name}</p>
-                        </Table.td>
-                        <Table.td className="hidden max-w-sm truncate lg:table-cell break-all whitespace-normal">
-                          {x.comment !== null ? (
-                            <p title={x.comment}>{x.comment}</p>
-                          ) : (
-                            <p className="text-scale-800">No description</p>
-                          )}
-                        </Table.td>
-                        <Table.td className="hidden text-right xl:table-cell">
-                          {(x.live_rows_estimate ?? x.live_row_count).toLocaleString()}
-                        </Table.td>
-                        <Table.td className="hidden text-right xl:table-cell">
-                          <code className="text-sm">{x.size}</code>
-                        </Table.td>
-                        <Table.td className="hidden xl:table-cell text-center">
-                          {(realtimePublication?.tables ?? []).find(
-                            (table: any) => table.id === x.id
-                          ) ? (
-                            <div className="flex justify-center">
-                              <IconCheck strokeWidth={2} className="text-brand" />
-                            </div>
-                          ) : (
-                            <div className="flex justify-center">
-                              <IconX strokeWidth={2} className="text-foreground-lighter" />
-                            </div>
-                          )}
-                        </Table.td>
-                        <Table.td>
-                          <div className="flex justify-end gap-2">
-                            <Button
-                              type="default"
-                              iconRight={<IconColumns />}
-                              className="whitespace-nowrap hover:border-gray-500"
-                              style={{ paddingTop: 3, paddingBottom: 3 }}
-                              onClick={() => onOpenTable(x)}
-                            >
-                              {x.columns?.length} columns
-                            </Button>
-
-                            {!isLocked && (
-                              <DropdownMenu>
-                                <DropdownMenuTrigger>
-                                  <Button
-                                    asChild
-                                    type="default"
-                                    icon={<IconMoreVertical />}
-                                    className="px-1"
-                                  >
-                                    <span />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent side="bottom" align="end" className="w-32">
-                                  <DropdownMenuItem
-                                    disabled={!canUpdateTables}
-                                    onClick={() => onEditTable(x)}
-                                  >
-                                    <Tooltip.Root delayDuration={0}>
-                                      <Tooltip.Trigger className="flex items-center space-x-2">
-                                        <IconEdit size="tiny" />
-                                        <p>Edit table</p>
-                                      </Tooltip.Trigger>
-                                      {!canUpdateTables && (
-                                        <Tooltip.Portal>
-                                          <Tooltip.Content side="bottom">
-                                            <Tooltip.Arrow className="radix-tooltip-arrow" />
-                                            <div
-                                              className={[
-                                                'rounded bg-scale-100 py-1 px-2 leading-none shadow',
-                                                'border border-scale-200',
-                                              ].join(' ')}
-                                            >
-                                              <span className="text-xs text-foreground">
-                                                Additional permissions required to edit table
-                                              </span>
-                                            </div>
-                                          </Tooltip.Content>
-                                        </Tooltip.Portal>
-                                      )}
-                                    </Tooltip.Root>
-                                  </DropdownMenuItem>
-
-                                  <DropdownMenuItem
-                                    disabled={!canUpdateTables || isLocked}
-                                    onClick={() => onDeleteTable(x)}
-                                  >
-                                    <Tooltip.Root delayDuration={0}>
-                                      <Tooltip.Trigger className="flex items-center space-x-2">
-                                        <IconTrash stroke="red" size="tiny" />
-                                        <p>Delete table</p>
-                                      </Tooltip.Trigger>
-                                      {!canUpdateTables && (
-                                        <Tooltip.Portal>
-                                          <Tooltip.Content side="bottom">
-                                            <Tooltip.Arrow className="radix-tooltip-arrow" />
-                                            <div
-                                              className={[
-                                                'rounded bg-scale-100 py-1 px-2 leading-none shadow',
-                                                'border border-scale-200',
-                                              ].join(' ')}
-                                            >
-                                              <span className="text-xs text-foreground">
-                                                Additional permissions required to delete table
-                                              </span>
-                                            </div>
-                                          </Tooltip.Content>
-                                        </Tooltip.Portal>
-                                      )}
-                                    </Tooltip.Root>
-                                  </DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
+                    tables
+                      .filter((table) => table.schema === schema?.name)
+                      .map((x: any, i: any) => (
+                        <Table.tr key={x.id} className="w-60">
+                          <Table.td>
+                            <p className="w-[160px] text-ellipsis overflow-hidden" title={x.name}>
+                              {x.name}
+                            </p>
+                          </Table.td>
+                          <Table.td className="hidden max-w-sm truncate lg:table-cell break-all whitespace-normal">
+                            {x.comment !== null ? (
+                              <p title={x.comment}>{x.comment}</p>
+                            ) : (
+                              <p className="text-scale-800">No description</p>
                             )}
-                          </div>
-                        </Table.td>
-                      </Table.tr>
-                    ))}
+                          </Table.td>
+                          <Table.td className="hidden text-right xl:table-cell">
+                            {(x.live_rows_estimate ?? x.live_row_count).toLocaleString()}
+                          </Table.td>
+                          <Table.td className="hidden text-right xl:table-cell">
+                            <code className="text-sm">{x.size}</code>
+                          </Table.td>
+                          <Table.td className="hidden xl:table-cell text-center">
+                            {(realtimePublication?.tables ?? []).find(
+                              (table: any) => table.id === x.id
+                            ) ? (
+                              <div className="flex justify-center">
+                                <IconCheck strokeWidth={2} className="text-brand" />
+                              </div>
+                            ) : (
+                              <div className="flex justify-center">
+                                <IconX strokeWidth={2} className="text-foreground-lighter" />
+                              </div>
+                            )}
+                          </Table.td>
+                          <Table.td>
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                type="default"
+                                iconRight={<IconColumns />}
+                                className="whitespace-nowrap hover:border-gray-500"
+                                style={{ paddingTop: 3, paddingBottom: 3 }}
+                                onClick={() => onOpenTable(x)}
+                              >
+                                {x.columns?.length} {t('columns')}
+                              </Button>
+
+                              {!isLocked && (
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger>
+                                    <Button
+                                      asChild
+                                      type="default"
+                                      icon={<IconMoreVertical />}
+                                      className="px-1"
+                                    >
+                                      <span />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent side="bottom" align="end" className="w-32">
+                                    <DropdownMenuItem
+                                      disabled={!canUpdateTables}
+                                      onClick={() => onEditTable(x)}
+                                    >
+                                      <Tooltip.Root delayDuration={0}>
+                                        <Tooltip.Trigger className="flex items-center space-x-2">
+                                          <IconEdit size="tiny" />
+                                          <p>{t('Edit table')}</p>
+                                        </Tooltip.Trigger>
+                                        {!canUpdateTables && (
+                                          <Tooltip.Portal>
+                                            <Tooltip.Content side="bottom">
+                                              <Tooltip.Arrow className="radix-tooltip-arrow" />
+                                              <div
+                                                className={[
+                                                  'rounded bg-scale-100 py-1 px-2 leading-none shadow',
+                                                  'border border-scale-200',
+                                                ].join(' ')}
+                                              >
+                                                <span className="text-xs text-foreground">
+                                                  {t(
+                                                    'Additional permissions required to edit table'
+                                                  )}
+                                                </span>
+                                              </div>
+                                            </Tooltip.Content>
+                                          </Tooltip.Portal>
+                                        )}
+                                      </Tooltip.Root>
+                                    </DropdownMenuItem>
+
+                                    <DropdownMenuItem
+                                      disabled={!canUpdateTables || isLocked}
+                                      onClick={() => onDeleteTable(x)}
+                                    >
+                                      <Tooltip.Root delayDuration={0}>
+                                        <Tooltip.Trigger className="flex items-center space-x-2">
+                                          <IconTrash stroke="red" size="tiny" />
+                                          <p>{t('Delete table')}</p>
+                                        </Tooltip.Trigger>
+                                        {!canUpdateTables && (
+                                          <Tooltip.Portal>
+                                            <Tooltip.Content side="bottom">
+                                              <Tooltip.Arrow className="radix-tooltip-arrow" />
+                                              <div
+                                                className={[
+                                                  'rounded bg-scale-100 py-1 px-2 leading-none shadow',
+                                                  'border border-scale-200',
+                                                ].join(' ')}
+                                              >
+                                                <span className="text-xs text-foreground">
+                                                  {t(
+                                                    'Additional permissions required to delete table'
+                                                  )}
+                                                </span>
+                                              </div>
+                                            </Tooltip.Content>
+                                          </Tooltip.Portal>
+                                        )}
+                                      </Tooltip.Root>
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              )}
+                            </div>
+                          </Table.td>
+                        </Table.tr>
+                      ))}
                 </>
               }
             />

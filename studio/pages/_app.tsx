@@ -60,11 +60,34 @@ import { RootStore } from 'stores'
 import HCaptchaLoadedStore from 'stores/hcaptcha-loaded-store'
 import { AppPropsWithLayout } from 'types'
 
+import { appWithTranslation } from 'next-i18next'
+import zhCN from './zh-CN.json'
 dayjs.extend(customParseFormat)
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(relativeTime)
 dart(Prism)
+
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
+const resources = {
+  'zh-CN': {
+    translation: zhCN,
+  },
+}
+
+i18n
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .init({
+    resources,
+    lng: 'zh-CN', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
+    // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
+    // if you're using a language detector, do not define the lng option
+
+    interpolation: {
+      escapeValue: false, // react already safes from xss
+    },
+  })
 
 if (IS_PLATFORM && process.env.NEXT_PUBLIC_ENVIRONMENT === 'staging') {
   // [Joshen] For staff only to debug internal issues
@@ -199,4 +222,4 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
   )
 }
 
-export default CustomApp
+export default appWithTranslation(CustomApp)

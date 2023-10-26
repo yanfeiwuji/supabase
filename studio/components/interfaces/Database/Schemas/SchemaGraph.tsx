@@ -392,7 +392,7 @@ const SchemaGraph = ({ schema }: { schema: string }) => {
 
   return (
     <ReactFlowProvider>
-      <TablesGraph tables={tables} />
+      <TablesGraph tables={tables.filter((table) => table.schema === schema)} />
     </ReactFlowProvider>
   )
 }

@@ -33,8 +33,10 @@ import { EXCLUDED_SCHEMAS } from 'lib/constants/schemas'
 import { useTableEditorStateSnapshot } from 'state/table-editor'
 import { useProjectContext } from '../ProjectLayout/ProjectContext'
 import EntityListItem from './EntityListItem'
+import { useTranslation } from 'react-i18next'
 
 const TableEditorMenu = () => {
+  const { t } = useTranslation()
   const { id } = useParams()
   const snap = useTableEditorStateSnapshot()
 
@@ -126,7 +128,7 @@ const TableEditorMenu = () => {
                   style={{ justifyContent: 'start' }}
                   onClick={snap.onAddTable}
                 >
-                  <span>New table</span>
+                  <span>{t('New table')}</span>
                 </Button>
               </Tooltip.Trigger>
               {!canCreateTables && (
@@ -140,7 +142,7 @@ const TableEditorMenu = () => {
                       ].join(' ')}
                     >
                       <span className="text-xs text-foreground">
-                        You need additional permissions to create tables
+                        {t('You need additional permissions to create tables')}
                       </span>
                     </div>
                   </Tooltip.Content>
@@ -150,14 +152,16 @@ const TableEditorMenu = () => {
           ) : (
             <Alert_Shadcn_>
               <AlertTitle_Shadcn_ className="text-xs tracking-normal">
-                Viewing protected schema
+                {t('Viewing protected schema')}
               </AlertTitle_Shadcn_>
               <AlertDescription_Shadcn_ className="text-xs">
                 <p className="mb-2">
-                  This schema is managed by Supabase and is read-only through the table editor
+                  {t(
+                    'This schema is managed by Supabase and is read-only through the table editor'
+                  )}
                 </p>
                 <Button type="default" size="tiny" onClick={() => setShowModal(true)}>
-                  Learn more
+                  {t('Learn more')}
                 </Button>
               </AlertDescription_Shadcn_>
             </Alert_Shadcn_>
@@ -178,7 +182,7 @@ const TableEditorMenu = () => {
                   <IconSearch className="text-foreground-lighter" size={12} strokeWidth={1.5} />
                 )
               }
-              placeholder="Search tables"
+              placeholder={t('Search tables')}
               onChange={(e) => setSearchText(e.target.value.trim())}
               value={searchText}
               size="tiny"
@@ -196,20 +200,20 @@ const TableEditorMenu = () => {
         {isLoading ? (
           <div className="mx-4 flex items-center space-x-2">
             <IconLoader className="animate-spin" size={14} strokeWidth={1.5} />
-            <p className="text-sm text-foreground-light">Loading entities...</p>
+            <p className="text-sm text-foreground-light">{t('Loading entities...')}</p>
           </div>
         ) : searchText.length === 0 && (entityTypes?.length ?? 0) === 0 ? (
           <div className="mx-4 space-y-1 rounded-md border border-scale-400 bg-scale-300 py-3 px-4">
-            <p className="text-xs">No entities available</p>
+            <p className="text-xs">{t('No entities available')}</p>
             <p className="text-xs text-foreground-light">
-              This schema has no entities available yet
+              {t('This schema has no entities available yet')}
             </p>
           </div>
         ) : searchText.length > 0 && (entityTypes?.length ?? 0) === 0 ? (
           <div className="mx-4 space-y-1 rounded-md border border-scale-400 bg-scale-300 py-3 px-4">
-            <p className="text-xs">No results found</p>
+            <p className="text-xs">{t('No results found')}</p>
             <p className="text-xs text-foreground-light">
-              There are no entities that match your search
+              {t('There are no entities that match your search')}
             </p>
           </div>
         ) : (
@@ -224,7 +228,7 @@ const TableEditorMenu = () => {
                 <>
                   <div className="flex w-full items-center justify-between">
                     <div className="flex items-center space-x-1">
-                      <p>Tables</p>
+                      <p>{t('Tables')}</p>
                       {totalCount !== undefined && (
                         <p style={{ fontVariantNumeric: 'tabular-nums' }}>({totalCount})</p>
                       )}
@@ -248,7 +252,7 @@ const TableEditorMenu = () => {
                                     'border border-scale-200',
                                   ].join(' ')}
                                 >
-                                  <span className="text-xs">Sort By</span>
+                                  <span className="text-xs">{t('Sort By')}</span>
                                 </div>
                               </Tooltip.Content>
                             </Tooltip.Portal>
@@ -260,13 +264,13 @@ const TableEditorMenu = () => {
                             onValueChange={(value: any) => setSort(value)}
                           >
                             <DropdownMenuRadioItem key="alphabetical" value="alphabetical">
-                              Alphabetical
+                              {t('Alphabetical')}
                             </DropdownMenuRadioItem>
                             <DropdownMenuRadioItem
                               key="grouped-alphabetical"
                               value="grouped-alphabetical"
                             >
-                              Entity Type
+                              {t('Entity Type')}
                             </DropdownMenuRadioItem>
                           </DropdownMenuRadioGroup>
                         </DropdownMenuContent>

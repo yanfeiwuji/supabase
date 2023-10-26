@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react'
 import { Button } from 'ui'
 import { useTheme } from 'next-themes'
 import { BASE_PATH } from 'lib/constants'
+import { useTranslation } from 'react-i18next'
 
 const Error404: NextPage = ({}) => {
   const { resolvedTheme } = useTheme()
   const [show404, setShow404] = useState<boolean>(false)
-
+  const { t } = useTranslation()
   useEffect(() => {
     setTimeout(() => {
       setShow404(true)
@@ -55,13 +56,13 @@ const Error404: NextPage = ({}) => {
         <div className="flex w-[380px] flex-col items-center justify-center space-y-3 text-center">
           <h3 className="text-xl">Looking for something? 🔍</h3>
           <p className="text-foreground-light">
-            We couldn't find the page that you're looking for!
+            {t("We couldn't find the page that you're looking for!")}
           </p>
         </div>
         <div className="flex items-center space-x-4">
           <Link href="/projects">
             <a>
-              <Button size="small">Head back</Button>
+              <Button size="small">{t('Head back')}</Button>
             </a>
           </Link>
         </div>

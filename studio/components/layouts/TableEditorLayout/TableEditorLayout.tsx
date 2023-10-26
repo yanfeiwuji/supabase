@@ -6,8 +6,11 @@ import NoPermission from 'components/ui/NoPermission'
 import { useCheckPermissions, useStore } from 'hooks'
 import { ProjectLayoutWithAuth } from '../'
 import TableEditorMenu from './TableEditorMenu'
+import { useTranslation } from 'next-i18next'
 
 const TableEditorLayout = ({ children }: PropsWithChildren<{}>) => {
+  const { t } = useTranslation()
+
   const { vault, meta, ui } = useStore()
 
   const canReadTables = useCheckPermissions(PermissionAction.TENANT_SQL_ADMIN_READ, 'tables')
@@ -33,13 +36,13 @@ const TableEditorLayout = ({ children }: PropsWithChildren<{}>) => {
   if (!canReadTables) {
     return (
       <ProjectLayoutWithAuth>
-        <NoPermission isFullPage resourceText="view tables from this project" />
+        <NoPermission isFullPage resourceText={t('view tables from this project')} />
       </ProjectLayoutWithAuth>
     )
   }
 
   return (
-    <ProjectLayoutWithAuth product="Table Editor" productMenu={<TableEditorMenu />}>
+    <ProjectLayoutWithAuth product={t('Table Editor')} productMenu={<TableEditorMenu />}>
       {children}
     </ProjectLayoutWithAuth>
   )

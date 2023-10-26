@@ -5,6 +5,7 @@ import { sqlKeys } from 'data/sql/keys'
 import { useEffect, useState } from 'react'
 import { Button, IconCheck, IconRefreshCw } from 'ui'
 import { SupabaseGridQueue } from '../../constants'
+import { useTranslation } from 'react-i18next'
 
 export type RefreshButtonProps = {
   table: SupaTable
@@ -12,6 +13,7 @@ export type RefreshButtonProps = {
 }
 
 const RefreshButton = ({ table, isRefetching }: RefreshButtonProps) => {
+  const { t } = useTranslation()
   const { ref } = useParams()
   const queryClient = useQueryClient()
 
@@ -61,7 +63,7 @@ const RefreshButton = ({ table, isRefetching }: RefreshButtonProps) => {
       }}
       loading={isRefetching || status === 'saving'}
     >
-      {!status ? 'Refresh' : status === 'saved' ? 'Changes saved' : 'Saving changes'}
+      {!status ? t('Refresh') : status === 'saved' ? 'Changes saved' : t('Saving changes')}
     </Button>
   )
 }

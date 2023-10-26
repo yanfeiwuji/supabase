@@ -8,8 +8,10 @@ import { IS_PLATFORM } from 'lib/constants'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { NextPageWithLayout } from 'types'
+import { useTranslation } from 'react-i18next'
 
 const SignInPage: NextPageWithLayout = () => {
+  const { t } = useTranslation()
   const router = useRouter()
   useEffect(() => {
     if (!IS_PLATFORM) {
@@ -38,10 +40,10 @@ const SignInPage: NextPageWithLayout = () => {
 
       <div className="self-center my-8 text-sm">
         <div>
-          <span className="text-foreground-light">Don't have an account?</span>{' '}
+          <span className="text-foreground-light">{t("Don't have an account")}?</span>{' '}
           <Link href="/sign-up">
             <a className="underline transition text-foreground hover:text-foreground-light">
-              Sign Up Now
+              {t('Sign Up Now')}
             </a>
           </Link>
         </div>

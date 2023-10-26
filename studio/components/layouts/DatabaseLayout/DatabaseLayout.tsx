@@ -7,12 +7,14 @@ import { useSelectedProject, useStore, withAuth } from 'hooks'
 import ProjectLayout from '../'
 import { generateDatabaseMenu } from './DatabaseMenu.utils'
 import { useIsAPIDocsSidePanelEnabled } from 'components/interfaces/App/FeaturePreview/FeaturePreviewContext'
+import { useTranslation } from 'react-i18next'
 
 export interface DatabaseLayoutProps {
   title?: string
 }
 
 const DatabaseLayout = ({ children }: PropsWithChildren<DatabaseLayoutProps>) => {
+  const { t } = useTranslation()
   const { ui, meta, vault } = useStore()
   const project = useSelectedProject()
 
@@ -41,7 +43,7 @@ const DatabaseLayout = ({ children }: PropsWithChildren<DatabaseLayoutProps>) =>
 
   return (
     <ProjectLayout
-      product="Database"
+      product={t('Database')}
       productMenu={
         <ProductMenu
           page={page}
